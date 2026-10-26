@@ -269,6 +269,7 @@ def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--live',action='store_true')
     parser.add_argument('--consent-synthetic',action='store_true')
+    parser.add_argument('--only',nargs='+',help='Explicit case IDs for a separately recorded targeted run')
     parser.add_argument('--run-name',default=datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ'))
     args=parser.parse_args()
     if not args.run_name.replace('-','').replace('_','').isalnum():
@@ -276,6 +277,11 @@ def main():
     root=ROOT/'tmp'/'nebius-evaluation'/args.run_name
     root.mkdir(parents=True,exist_ok=False)
     corpus=json.loads(CORPUS.read_text())
+    if args.only:
+        known={case['id'] for case in corpus['cases']}
+        if len(args.only)!=len(set(args.only)) or not set(args.only)<=known:
+            parser.error('--only must name unique existing corpus cases')
+        corpus={**corpus,'cases':[case for case in corpus['cases'] if case['id'] in args.only]}
     preflight(corpus,root/'preflight')
     if not args.live:
         return
@@ -290,7 +296,7 @@ def main():
             "application_commit":subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),
             "corpus_sha256":hashlib.sha256(CORPUS.read_bytes()).hexdigest(),
             "runner_sha256":hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
-            "repeat_count":1,"network_request_budget":75,"fixture_type":"new fictional cases; oracle labels fixed before live calls",
+            "repeat_count":1,"case_selection":args.only or 'all',"network_request_budget":75,"fixture_type":"new fictional cases; oracle labels fixed before live calls",
             "review":"scripted oracle review and approvals on synthetic records only",
             "results":[]}
     for case in corpus['cases']:

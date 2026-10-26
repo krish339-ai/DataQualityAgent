@@ -63,7 +63,7 @@ def content():
     ev = json.loads((OUT / "evaluation-results.json").read_text())
     qa = json.loads((OUT / "test-results.json").read_text())
     maximum = max(r["seconds"] for r in ev["results"])
-    return [
+    pages = [
       [
        ("title", "Lumen Row Project Documentation"),
        ("p", "A human reviewed data quality agent built with Python, LangChain and LangGraph"),
@@ -165,6 +165,7 @@ def content():
          ["I should see the correct issue count and be able to enter corrections even if the model fails.", "Local validation drives the count; eligible failed investigations allow manual recovery in the same job."],
          ["While editing date field ... use calendar ... country ... drop down ... acceptable values per rules.", "Optional field controls use date pickers and rule-derived categories; text fields preserve identifiers."],
          ["By default all should be available in the same tabular format ... AI Proposed fixed table just above final table.", "All affected fields are prepared together, with compact suggestions above the editable draft and a batch-add action."],
+         ["A fresh Nebius evaluation ... measure missed issues, incorrect suggestions and unnecessary refusals ... keep results separate.", "Fourteen pre-labeled cases, raw versus guarded scoring, separate cohorts and an auditable live-results package."],
        ], [3.35,3.45])),
        ("h", "Iterations that changed the product"),
        ("p", "The first version handled CSV and paused on unresolved facts. Live-provider configuration and error handling were then added. Negative testing exposed a misleading zero issue count and a blocked manual-edit path after model failure; both were corrected and covered by regression tests."),
@@ -186,7 +187,7 @@ def content():
        ("p", "Human approval must bind to exact content. A generic checkbox is insufficient if the source, rules, plan or staged bytes can change. Checkpoints and content hashes make resumed work reviewable and protect the write boundary."),
        ("p", "Model failure should not erase deterministic evidence or trap the user. Keeping local validation independent makes the workflow useful when a provider times out, produces malformed output or exhausts its budget."),
        ("p", "Interface verification matters alongside unit tests. Repeated review caught unclear date-entry expectations, oversized controls and excessive correction steps. Compact tables and rule-aware controls reduced friction while keeping explicit approvals."),
-       ("p", "Next improvements include broader evaluation with independently labeled datasets, measured live-model reliability and cost, richer export formats, and access controls before any multi-user deployment."),
+       ("p", "The fresh Nebius study that follows adds live exception, multi-item and abstention checks. Further work includes independently reviewed datasets, repeated runs, richer validation and export rules, and access controls before multi-user deployment."),
       ],
       [
        ("h", "Setup and demonstration guide"),
@@ -225,6 +226,61 @@ def content():
        ("p", "I'm Krishna Kallamadi, a data enthusiast with 16+ years of experience with various on-prem and cloud databases across healthcare and insurance. I began my career in 2009 and have spent more than a decade supporting mission-critical healthcare databases. My work spans database administration, performance tuning, data analytics, data migration, data engineering, data architecture, cloud engineering, and AI engineering, with a focus on automation and data security."),
        ("p", "I've expanded into AI, earning the AWS Certified AI Practitioner certification and building AI-powered database intelligence tools. I'm working toward a future as an AI Data Architect, bringing together database expertise, data engineering, and a security-first approach to intelligent, autonomous platforms."),
        ("link", ("Connect on LinkedIn", LINKEDIN)),
+      ],
+    ]
+    live_path = OUT / "evaluations/nebius-fresh-v1.json"
+    if live_path.exists():
+        pages[8:8] = live_evaluation_pages(json.loads(live_path.read_text(encoding="utf-8")))
+    return pages
+
+
+def live_evaluation_pages(report):
+    cohorts = report['cohorts']
+    titles = {'declared_rules':'Declared rules', 'semantic_repairs':'Semantic repairs',
+              'exception_knowledge':'Exception and knowledge', 'source_coverage':'Full source coverage'}
+    detection_rows=[]
+    suggestion_rows=[]
+    for cohort,title in titles.items():
+        c=cohorts[cohort]
+        detection_rows.append([title,str(c['cases']),f"{c['missed_issues']} / {c['expected_issues']}",str(c['false_positive_issues'])])
+        if c['value_targets']:
+            for phase,label in [('raw','Raw model'),('delivered','After safeguards')]:
+                r=c[phase]
+                wrong=r['incorrect_suggestions']+r['hypothesis_truth_mismatches']
+                refusal=f"{r['unnecessary_refusals']} / {c['answerable_value_targets']}" if c['answerable_value_targets'] else 'Not applicable'
+                suggestion_rows.append([title,label,f"{wrong} / {r['suggestions']}",refusal])
+    complete=sum(x['reviewed_outcome'].get('exported',False) and x['reviewed_outcome']['passed'] for x in report['results'])
+    missing=sum(c['raw']['missing_items'] for c in cohorts.values())
+    targets=sum(c['value_targets'] for c in cohorts.values())
+    raw_errors=sum(c['raw']['incorrect_suggestions'] for c in cohorts.values())
+    hypothesis_errors=sum(c['raw']['hypothesis_truth_mismatches'] for c in cohorts.values())
+    hypothesis_label='date hypothesis' if hypothesis_errors==1 else 'date hypotheses'
+    return [
+      [
+       ('h','Fresh Nebius evaluation method'),
+       ('p',f"A new 14-case study used Nebius model {report['model']} at temperature 0. The records, expected issue locations and correction answers were fixed before the calls. This is a single-pass study of fictional fixtures, separate from the earlier ten offline cases and regression suite."),
+       ('p','The study applies the previous project feedback to exception handling, coverage across multiple items, and unnecessary refusals. Four cohorts remain separate: declared rules, semantic corrections, exception and missing-knowledge cases, and full-source coverage probes. Research-paper and CMS results are not pooled into these numbers.'),
+       ('table',(['Measure','Definition'],[
+         ['Missed issues','Compare every expected record, field and issue type with local validation. Python detects issues; these recall figures are not attributed to the language model.'],
+         ['Incorrect suggestions','Compare raw and user-visible values with the fixture answers. Count unsupported guesses even if they accidentally match. Include factually wrong date hypotheses in the factual total, with that subtype reported separately.'],
+         ['Unnecessary refusals','Explicit abstentions where the disclosed evidence supports a known answer, divided by answerable requested cells. Missing responses and provider failures are reported separately.'],
+         ['Coverage across items','Check response items for every affected cell, including batches with multiple records. Keep raw output separate from what safeguards allow through.'],
+         ['Complete reviewed outcome','For repairable fixtures, require exact expected output, preserved originals and both scripted approvals. For hold cases, an approval-ready state is a failure even if the evaluator withholds approval.'],
+       ],[1.65,5.15])),
+       ('p','The model receives the normal production context: aggregate references for investigation and consented affected values/rules for value assistance. Gold answers and source notes are withheld. Two source-coverage cases intentionally contain requirements that cannot be represented by the current rule schema, testing the system boundary rather than expecting the model to know an undisclosed policy.'),
+       ('p','The evaluation runner saves each exact fictional request preview before sending it. It records model replies, tool calls, tokens, corpus and runner hashes, and the application commit. It never uses saved customer jobs or publishes API credentials. No production prompt or guardrail was tuned to improve this run.'),
+       ('p','Reproduce a local preflight with: python scripts/evaluate_nebius.py. Live calls require: python scripts/evaluate_nebius.py --live --consent-synthetic. The command uses your configured provider key, incurs normal provider usage, and writes job artifacts only to ignored tmp storage.'),
+      ],
+      [
+       ('h','Fresh Nebius results by cohort'),
+       ('table',(['Cohort','Cases','Missed / expected','False alarms'],detection_rows,[2.5,.65,1.95,1.7])),
+       ('p','The source-coverage misses are a conditional signup-date policy and email syntax. Both records satisfy the supplied JSON checks, so the app reaches repair approval despite those omitted requirements. The evaluator withholds approval; a clean validation result is not evidence that the full business policy has been covered.'),
+       ('table',(['Value cohort','Stage','Wrong / proposed','Refused / answerable'],suggestion_rows,[1.9,1.3,1.65,1.95])),
+       ('p',f"The factual error total includes {raw_errors} incorrect or unsupported determinate proposals and {hypothesis_errors} {hypothesis_label} inconsistent with the hidden source ledger. Nebius suggested 2027-02-28; the fixture ledger specifies 2027-03-01. Raw item coverage was {targets-missing} of {targets} requested cells. Six unknown-fact cells received necessary abstentions."),
+       ('p',f"The declared-rule investigator selected {cohorts['declared_rules']['rule_backed_changes_selected']} of {cohorts['declared_rules']['rule_backed_gold_changes']} expected transformations. Scripted review produced {complete} exact corrected outputs with original files preserved and two approvals each. This measures the combined workflow with known reviewer facts, not autonomous correction accuracy."),
+       ('p',f"The initial run made {report.get('total_calls','unavailable')} model requests and reported {report.get('total_tokens','unavailable')} total tokens. Its final case hit the evaluator's 75-request cap, a local stop rather than a provider refusal. The targeted retry is retained separately in docs/evaluations/nebius-coverage-retry-v1.json; the original result is unchanged. The retry also exposes the email coverage gap."),
+       ('p','Practical follow-up: review the full source policy before treating a rules file as complete; extend the schema for conditional date ranges and email syntax; keep factual date confirmation in the human review step; and repeat the study with independently labeled cases before making broad reliability claims.'),
+       ('p','These small, deliberately constructed samples describe this run only. They do not establish a stable refusal rate, production accuracy or real-user completion time. The previous offline figures remain separate. Six new evaluator tests passed, including checks that missing responses are not mislabeled as refusals. No production validation behavior was changed by this study.'),
       ],
     ]
 

@@ -1,0 +1,8 @@
+{
+  "run_date": "2026-10-25",
+  "command": "python -m pytest tests/test_live_evaluation_scoring.py -q",
+  "passed": 6,
+  "failures": 0,
+  "model_calls": 0,
+  "purpose": "Evaluator correctness, not additional live-provider performance evidence"
+}

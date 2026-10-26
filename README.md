@@ -208,6 +208,41 @@ The ten-scenario evaluation covers clean data, duplicate removal, category alias
 
 The [project documentation](docs/Lumen-Row-Project-Documentation.docx) includes the primer, framework, architecture, datasets, coding prompts, iterations, learnings, and a five-minute demo outline. A [PDF copy](docs/Lumen-Row-Project-Documentation.pdf) is available for reading. Upload the editable document to Google Drive and open it with Google Docs; add the shared document URL and your Loom recording URL when ready. The repository is https://github.com/krish339-ai/DataQualityAgent. No form submission is made by setup.
 
+## Fresh Nebius evaluation
+
+A new 14-case study uses the configured `Qwen/Qwen3.5-397B-A17B` model through the actual LangChain/LangGraph workflow. The fictional records and gold answers were fixed before the calls. This is separate from the ten offline scenarios, parser tests, and any research-paper or CMS evaluation.
+
+| Cohort | Cases | Missed issues | Incorrect values proposed | Unnecessary refusals |
+| --- | ---: | ---: | --- | --- |
+| Declared rules | 4 | 0/7 | All 7 expected rule-backed changes selected | Not applicable |
+| Semantic repairs | 4 | 0/7 | 0/7 raw and delivered values | 0/7 answerable cells |
+| Exceptions and missing knowledge | 4 | 0/7 | 1/1 date hypothesis disagreed with the hidden source fact | Not applicable; 6 necessary abstentions |
+| Full-source coverage | 2 | 2/2 | No replacement values requested | Not applicable |
+
+The issue detector is Python, so issue recall is **system validation coverage**, not LLM detection accuracy. Raw and guarded suggestions are scored separately. The date hypothesis (`2027-02-28`) passed format checks but the fixture ledger specified `2027-03-01`; the evaluator counted that factual mismatch rather than hiding it behind an “unverified” label. The seven answerable semantic corrections were correct, and every one of the fourteen requested value items received a response.
+
+The two coverage probes contain a conditional signup-date restriction and an email syntax requirement that the current rules cannot express. Both reached repair approval despite missing those full-source requirements. The evaluator withheld approval. These remain **known limitations**, not fixed validation features. Complete business-policy coverage requires an explicit source-to-rules review and future schema support.
+
+The evaluator completed eleven repairable fixtures using known reviewer facts, exact expected outputs and both scripted approvals. One excluded-country fixture correctly stayed unresolved. These are human-assisted workflow outcomes, not autonomous factual accuracy. No production prompt or guardrail was changed to improve the measured results.
+
+The [initial results](docs/evaluations/nebius-fresh-v1.json) retain all responses, tool calls, request payloads, token usage and provenance hashes. The final case hit the evaluator's own 75-request ceiling; this is a local budget stop, not a Nebius refusal or provider outage. Its [targeted retry](docs/evaluations/nebius-coverage-retry-v1.json) is reported separately and does not replace the original. The [protocol](evaluations/nebius_fresh_v1/protocol.json) and [labeled corpus](evaluations/nebius_fresh_v1/cases.json) define the denominators and expected answers.
+
+```shell
+# Local fixture checks; no model requests
+python scripts/evaluate_nebius.py
+
+# Paid live requests on the committed fictional fixtures only
+python scripts/evaluate_nebius.py --live --consent-synthetic
+
+# A separately recorded targeted run
+python scripts/evaluate_nebius.py --live --consent-synthetic --only coverage_missing_email_constraint
+
+# Offline tests for the evaluator's scoring, privacy and request limit
+python -m pytest tests/test_live_evaluation_scoring.py -q
+```
+
+Each run writes to a new ignored folder under `tmp/nebius-evaluation/`. Six evaluator tests passed; the earlier 422-test release suite and 10/10 offline results remain separate evidence. One initial pass on fourteen deliberately constructed cases does not establish general reliability or a stable refusal rate. Next steps are independently reviewed datasets, repeated live runs, and implementation of the missing rule types.
+
 ## About the author
 
 I'm Krishna Kallamadi, a data enthusiast with 16+ years of experience with various on-prem and cloud databases across healthcare and insurance. I began my career in 2009 and have spent more than a decade supporting mission-critical healthcare databases. My work spans database administration, performance tuning, data analytics, data migration, data engineering, data architecture, cloud engineering, and AI engineering, with a focus on automation and data security.

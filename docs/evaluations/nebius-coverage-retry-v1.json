@@ -1,0 +1,248 @@
+{
+  "suite": "nebius-fresh-v1",
+  "provider": "nebius",
+  "model": "Qwen/Qwen3.5-397B-A17B",
+  "temperature": 0,
+  "started_at_utc": "2026-10-26T03:27:01.632155+00:00",
+  "application_commit": "7ac8ee821662906401ee6610a33c19e166e6eb99",
+  "corpus_sha256": "7471352ffc02776aa07d3a7522d96167e490b43c17437dbd13dd256cdaa7d23e",
+  "runner_sha256": "740de130718f7a3827dea034591fa324e9fac3a7e4308dd2c5c5a1d018de631f",
+  "repeat_count": 1,
+  "case_selection": [
+    "coverage_missing_email_constraint"
+  ],
+  "network_request_budget": 75,
+  "fixture_type": "new fictional cases; oracle labels fixed before live calls",
+  "review": "scripted oracle review and approvals on synthetic records only",
+  "results": [
+    {
+      "id": "coverage_missing_email_constraint",
+      "cohort": "source_coverage",
+      "detection": {
+        "expected": 1,
+        "detected": 0,
+        "missed": [
+          [
+            1,
+            "email",
+            "email_syntax"
+          ]
+        ],
+        "false_positives": []
+      },
+      "observed_issues": [],
+      "investigation_failed": false,
+      "investigation_error": "",
+      "rule_candidate_coverage": {
+        "expected": 0,
+        "selected_correctly": 0
+      },
+      "value_request": null,
+      "value_targets": [],
+      "value_fallback": null,
+      "delivered_suggestions": [],
+      "cell_scores": [],
+      "reviewed_outcome": {
+        "expected": "hold",
+        "passed": false,
+        "unsafe_ready_for_approval": true,
+        "exported": false,
+        "approval_decisions": 0,
+        "note": "Harness withheld approval; no real user action or export was performed."
+      },
+      "calls": [
+        {
+          "phase": "investigation",
+          "content": "",
+          "tool_calls": [
+            {
+              "name": "profile_dataset",
+              "args": {},
+              "id": "chatcmpl-tool-ba5d27bf346db2fa",
+              "type": "tool_call"
+            },
+            {
+              "name": "lookup_rules",
+              "args": {},
+              "id": "chatcmpl-tool-aba86692c759b11a",
+              "type": "tool_call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 531,
+            "output_tokens": 136,
+            "total_tokens": 667,
+            "input_token_details": {},
+            "output_token_details": {}
+          },
+          "seconds": 2.047
+        },
+        {
+          "phase": "investigation",
+          "content": "",
+          "tool_calls": [
+            {
+              "name": "validate_dataset",
+              "args": {},
+              "id": "chatcmpl-tool-be1bec8981391318",
+              "type": "tool_call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 634,
+            "output_tokens": 101,
+            "total_tokens": 735,
+            "input_token_details": {},
+            "output_token_details": {}
+          },
+          "seconds": 1.265
+        },
+        {
+          "phase": "investigation",
+          "content": "",
+          "tool_calls": [
+            {
+              "name": "preview_repairs",
+              "args": {},
+              "id": "chatcmpl-tool-9d1520c9b24f9d2e",
+              "type": "tool_call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 678,
+            "output_tokens": 51,
+            "total_tokens": 729,
+            "input_token_details": {},
+            "output_token_details": {}
+          },
+          "seconds": 1.0
+        },
+        {
+          "phase": "investigation",
+          "content": "",
+          "tool_calls": [
+            {
+              "name": "profile_dataset",
+              "args": {},
+              "id": "chatcmpl-tool-9301553483ca59cb",
+              "type": "tool_call"
+            },
+            {
+              "name": "lookup_rules",
+              "args": {},
+              "id": "chatcmpl-tool-8814b85f3fd758d6",
+              "type": "tool_call"
+            },
+            {
+              "name": "validate_dataset",
+              "args": {},
+              "id": "chatcmpl-tool-a3ec07a2ca65fa1b",
+              "type": "tool_call"
+            },
+            {
+              "name": "preview_repairs",
+              "args": {},
+              "id": "chatcmpl-tool-989b0dab4f6b2a4b",
+              "type": "tool_call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 736,
+            "output_tokens": 162,
+            "total_tokens": 898,
+            "input_token_details": {},
+            "output_token_details": {}
+          },
+          "seconds": 1.625
+        },
+        {
+          "phase": "investigation",
+          "content": "",
+          "tool_calls": [
+            {
+              "name": "profile_dataset",
+              "args": {},
+              "id": "chatcmpl-tool-bb2d11328c7c80a1",
+              "type": "tool_call"
+            },
+            {
+              "name": "lookup_rules",
+              "args": {},
+              "id": "chatcmpl-tool-a0e80ff297e2cf75",
+              "type": "tool_call"
+            },
+            {
+              "name": "validate_dataset",
+              "args": {},
+              "id": "chatcmpl-tool-bbe3da74e3323469",
+              "type": "tool_call"
+            },
+            {
+              "name": "preview_repairs",
+              "args": {},
+              "id": "chatcmpl-tool-aa490a99329f17bc",
+              "type": "tool_call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 917,
+            "output_tokens": 287,
+            "total_tokens": 1204,
+            "input_token_details": {},
+            "output_token_details": {}
+          },
+          "seconds": 2.375
+        },
+        {
+          "phase": "investigation",
+          "content": "\n\n{\"candidate_ids\":[]}",
+          "tool_calls": [],
+          "usage": {
+            "input_tokens": 1098,
+            "output_tokens": 111,
+            "total_tokens": 1209,
+            "input_token_details": {},
+            "output_token_details": {}
+          },
+          "seconds": 1.406
+        }
+      ],
+      "seconds": 10.25
+    }
+  ],
+  "cohorts": {
+    "source_coverage": {
+      "cases": 1,
+      "expected_issues": 1,
+      "missed_issues": 1,
+      "false_positive_issues": 0,
+      "value_targets": 0,
+      "answerable_value_targets": 0,
+      "value_fallback_cases": 0,
+      "investigation_failures": 0,
+      "rule_backed_gold_changes": 0,
+      "rule_backed_changes_selected": 0,
+      "reviewed_outcomes_passed": 0,
+      "unsafe_ready_for_approval": 1,
+      "raw": {
+        "suggestions": 0,
+        "incorrect_suggestions": 0,
+        "unnecessary_refusals": 0,
+        "correct_answerable_suggestions": 0,
+        "missing_items": 0,
+        "hypothesis_truth_mismatches": 0
+      },
+      "delivered": {
+        "suggestions": 0,
+        "incorrect_suggestions": 0,
+        "unnecessary_refusals": 0,
+        "correct_answerable_suggestions": 0,
+        "missing_items": 0,
+        "hypothesis_truth_mismatches": 0
+      }
+    }
+  },
+  "finished_at_utc": "2026-10-26T03:27:13.408501+00:00",
+  "total_calls": 6,
+  "total_tokens": 5442
+}
