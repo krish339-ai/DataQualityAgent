@@ -106,3 +106,32 @@ def test_legacy_rules_remain_compatible_and_do_not_infer_omitted_policies(tmp_pa
     engine = Engine(tmp_path)
     job = engine.create_job(b"email,signup_date,country\nnot-an-email,2026-12-31,GB\n", {"required_columns": ["email"]})
     assert engine.validate(job)["valid"]
+
+
+def test_original_candidate_cannot_override_new_ambiguous_manual_date(tmp_path):
+    engine = Engine(tmp_path)
+    job = create(engine, date="03/04/2027")
+    plan = [{"op": "set", "row": 0, "column": "signup_date", "value": "02/29/2027",
+             "reason": "Source needs clarification", "user_supplied": True}]
+    request = preview_request(engine, job, plan, ["signup_date"], mode="nebius", pending_kind="clarification", revisions=1)
+    assert _unsupported_fact(request["payload"]["issues"][0], "2027-03-04", engine.propose(job), request["targets"][0]) is not None
+
+
+def test_confirmed_manual_date_can_still_use_declared_conversion(tmp_path):
+    engine = Engine(tmp_path)
+    job = create(engine, date="02/29/2027")
+    plan = [{"op": "set", "row": 0, "column": "signup_date", "value": "03/01/2027",
+             "reason": "Confirmed source", "user_supplied": True}]
+    request = preview_request(engine, job, plan, ["signup_date"], mode="nebius", pending_kind="clarification", revisions=1)
+    assert _unsupported_fact(request["payload"]["issues"][0], "2027-03-01", engine.propose(job), request["targets"][0]) is None
+
+
+def test_policy_failure_does_not_reinterpret_an_already_valid_output_date(tmp_path):
+    rules = copy.deepcopy(RULES)
+    rules["date_formats"]["signup_date"] = {"input": "%d/%m/%Y", "output": "%m/%d/%Y"}
+    rules["conditional_dates"][0]["min_date"] = "2027-04-01"
+    engine = Engine(tmp_path)
+    job = create(engine, date="03/04/2027", rules=rules)
+    request = preview_request(engine, job, [], ["signup_date"], mode="nebius", pending_kind="clarification", revisions=0)
+    assert request["payload"]["issues"][0]["issue_types"] == ["business_qualification"]
+    assert _unsupported_fact(request["payload"]["issues"][0], "04/03/2027", [], request["targets"][0]) is not None

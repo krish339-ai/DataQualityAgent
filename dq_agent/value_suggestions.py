@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+from datetime import datetime
 from typing import Literal
 
 from langchain_core.messages import HumanMessage, SystemMessage
@@ -125,8 +126,19 @@ def _unsupported_fact(offered: dict, value: str, candidates: list[dict], target:
                         for candidate in candidates)
     if offered["rules"]["unique"] and not deterministic:
         return "A new or replacement identifier cannot establish the existing record's identity. Confirm it from a trusted source."
-    if offered["rules"].get("date_format") and not deterministic:
-        return "The intended date cannot be established by a format rule. Confirm it from your source and choose that date; do not guess a nearby day or shift a date to meet a policy."
+    date_rule = offered["rules"].get("date_format")
+    if date_rule:
+        # Validate against the consented current value, not an original-file
+        # candidate that a later saved manual edit may have superseded.
+        current = offered["current_value"]
+        try:
+            parsed = datetime.strptime(current, date_rule["input"])
+            conversion = ("date_format" in offered["issue_types"] and
+                          parsed.strftime(date_rule["input"]) == current and parsed.strftime(date_rule["output"]) == value)
+        except ValueError:
+            conversion = False
+        if not conversion:
+            return "The intended date cannot be established by a format rule. Confirm it from your source and choose that date; do not guess a nearby day or shift a date to meet a policy."
     if "email_syntax" in offered["issue_types"] and not deterministic:
         return "Syntax rules cannot establish the intended email address. Confirm the address from your source."
     category = offered["rules"].get("category")
