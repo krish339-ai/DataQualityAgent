@@ -1,0 +1,861 @@
+{
+  "suite": "nebius-fixed-v2",
+  "provider": "nebius",
+  "model": "Qwen/Qwen3.5-397B-A17B",
+  "temperature": 0,
+  "started_at_utc": "2026-10-26T03:52:36.674923+00:00",
+  "application_commit": "176ee0ba875c5107676f72a1f000753796646c5f",
+  "corpus_sha256": "c2cd43757cce4c51094eae81e8b8d368387de6efce92ac8bdeb6957d010db52d",
+  "runner_sha256": "9e9ae7bad9a5a5d3dfd5c58c175094f6546a32d4efbf41033fa697ae7c9dcd66",
+  "repeat_count": 1,
+  "case_selection": [
+    "knowledge_nonleap_date",
+    "holdout_impossible_april",
+    "holdout_declared_day_first"
+  ],
+  "network_request_budget": 120,
+  "fixture_type": "14 baseline regression cases (two now encode previously omitted policies), plus four new fictional holdout cases labeled before live calls. Not independently annotated. Baseline date case now requires abstention rather than a hypothesis.",
+  "review": "scripted oracle review and approvals on synthetic records only",
+  "results": [
+    {
+      "id": "knowledge_nonleap_date",
+      "cohort": "exception_knowledge",
+      "detection": {
+        "expected": 1,
+        "detected": 1,
+        "missed": [],
+        "false_positives": []
+      },
+      "observed_issues": [
+        {
+          "record": 1,
+          "field": "signup_date",
+          "kind": "date_format"
+        }
+      ],
+      "investigation_failed": false,
+      "investigation_error": "",
+      "rule_candidate_coverage": {
+        "expected": 0,
+        "selected_correctly": 0
+      },
+      "value_request": {
+        "issues": [
+          {
+            "issue_id": 0,
+            "field": "signup_date",
+            "current_value": "02/29/2027",
+            "issue_types": [
+              "date_format"
+            ],
+            "rules": {
+              "required": true,
+              "unique": false,
+              "date_format": {
+                "input": "%m/%d/%Y",
+                "output": "%Y-%m-%d"
+              }
+            }
+          }
+        ]
+      },
+      "value_targets": [
+        {
+          "issue_id": 0,
+          "record": 1,
+          "field": "signup_date",
+          "current_value": "02/29/2027",
+          "issue_types": [
+            "date_format"
+          ]
+        }
+      ],
+      "value_fallback": false,
+      "delivered_suggestions": [
+        {
+          "issue_id": 0,
+          "record": 1,
+          "field": "signup_date",
+          "current_value": "02/29/2027",
+          "disposition": "abstain",
+          "value": null,
+          "rationale": "The date 02/29/2027 is impossible because 2027 is not a leap year. Converting the format would preserve the invalid date. Inferring a corrected day (e.g., 02/28 or 03/01) would invent facts. Evidence missing: verification from a trusted source to determine the intended valid date.",
+          "local_validation": "not_applicable",
+          "message": "Needs your input."
+        }
+      ],
+      "cell_scores": [
+        {
+          "record": 1,
+          "field": "signup_date",
+          "evidence": "must_abstain",
+          "gold_value": "2027-03-01",
+          "raw": {
+            "disposition": "abstain",
+            "value": null,
+            "suggested": false,
+            "incorrect": false,
+            "unnecessary_refusal": false,
+            "correct": false,
+            "hypothesis_truth_mismatch": false
+          },
+          "delivered": {
+            "disposition": "abstain",
+            "value": null,
+            "suggested": false,
+            "incorrect": false,
+            "unnecessary_refusal": false,
+            "correct": false,
+            "hypothesis_truth_mismatch": false
+          }
+        }
+      ],
+      "reviewed_outcome": {
+        "expected": "complete",
+        "passed": true,
+        "exported": true,
+        "approval_decisions": 2,
+        "source_preserved": true,
+        "exact_output_match": true,
+        "note": "Known fixture facts and both approvals were scripted by the evaluator; this is not autonomous completion."
+      },
+      "calls": [
+        {
+          "phase": "investigation",
+          "content": "",
+          "tool_calls": [
+            {
+              "name": "profile_dataset",
+              "args": {},
+              "id": "chatcmpl-tool-90891b97aadef966",
+              "type": "tool_call"
+            },
+            {
+              "name": "lookup_rules",
+              "args": {},
+              "id": "chatcmpl-tool-9d114834a05e9c1a",
+              "type": "tool_call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 531,
+            "output_tokens": 121,
+            "total_tokens": 652,
+            "input_token_details": {},
+            "output_token_details": {}
+          },
+          "seconds": 2.64
+        },
+        {
+          "phase": "investigation",
+          "content": "",
+          "tool_calls": [
+            {
+              "name": "validate_dataset",
+              "args": {},
+              "id": "chatcmpl-tool-a6b67ea80271e4a8",
+              "type": "tool_call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 634,
+            "output_tokens": 91,
+            "total_tokens": 725,
+            "input_token_details": {},
+            "output_token_details": {}
+          },
+          "seconds": 1.75
+        },
+        {
+          "phase": "investigation",
+          "content": "",
+          "tool_calls": [
+            {
+              "name": "preview_repairs",
+              "args": {},
+              "id": "chatcmpl-tool-b23f3366c2c6427f",
+              "type": "tool_call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 684,
+            "output_tokens": 45,
+            "total_tokens": 729,
+            "input_token_details": {},
+            "output_token_details": {}
+          },
+          "seconds": 1.032
+        },
+        {
+          "phase": "investigation",
+          "content": "",
+          "tool_calls": [
+            {
+              "name": "validate_dataset",
+              "args": {},
+              "id": "chatcmpl-tool-88f968318242744e",
+              "type": "tool_call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 742,
+            "output_tokens": 138,
+            "total_tokens": 880,
+            "input_token_details": {},
+            "output_token_details": {}
+          },
+          "seconds": 2.109
+        },
+        {
+          "phase": "investigation",
+          "content": "",
+          "tool_calls": [
+            {
+              "name": "preview_repairs",
+              "args": {},
+              "id": "chatcmpl-tool-9c6e672aa6aa1f05",
+              "type": "tool_call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 792,
+            "output_tokens": 112,
+            "total_tokens": 904,
+            "input_token_details": {},
+            "output_token_details": {}
+          },
+          "seconds": 1.719
+        },
+        {
+          "phase": "investigation",
+          "content": "",
+          "tool_calls": [
+            {
+              "name": "validate_dataset",
+              "args": {},
+              "id": "chatcmpl-tool-b1d9a0c095a53c49",
+              "type": "tool_call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 850,
+            "output_tokens": 226,
+            "total_tokens": 1076,
+            "input_token_details": {},
+            "output_token_details": {}
+          },
+          "seconds": 3.14
+        },
+        {
+          "phase": "investigation",
+          "content": "",
+          "tool_calls": [
+            {
+              "name": "preview_repairs",
+              "args": {},
+              "id": "chatcmpl-tool-8f5c7dabf26dd40c",
+              "type": "tool_call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 900,
+            "output_tokens": 133,
+            "total_tokens": 1033,
+            "input_token_details": {},
+            "output_token_details": {}
+          },
+          "seconds": 1.735
+        },
+        {
+          "phase": "investigation",
+          "content": "",
+          "tool_calls": [
+            {
+              "name": "validate_dataset",
+              "args": {},
+              "id": "chatcmpl-tool-bee48dfa84e9617a",
+              "type": "tool_call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 958,
+            "output_tokens": 189,
+            "total_tokens": 1147,
+            "input_token_details": {},
+            "output_token_details": {}
+          },
+          "seconds": 2.578
+        },
+        {
+          "phase": "investigation",
+          "content": "\n\n{\"candidate_ids\":[]}",
+          "tool_calls": [],
+          "usage": {
+            "input_tokens": 1008,
+            "output_tokens": 135,
+            "total_tokens": 1143,
+            "input_token_details": {},
+            "output_token_details": {}
+          },
+          "seconds": 1.578
+        },
+        {
+          "phase": "values",
+          "content": "\n\n{\n  \"suggestions\": [\n    {\n      \"issue_id\": 0,\n      \"disposition\": \"abstain\",\n      \"value\": null,\n      \"rationale\": \"The date 02/29/2027 is impossible because 2027 is not a leap year. Converting the format would preserve the invalid date. Inferring a corrected day (e.g., 02/28 or 03/01) would invent facts. Evidence missing: verification from a trusted source to determine the intended valid date.\"\n    }\n  ]\n}",
+          "tool_calls": [],
+          "usage": {
+            "input_tokens": 411,
+            "output_tokens": 2083,
+            "total_tokens": 2494,
+            "input_token_details": {},
+            "output_token_details": {}
+          },
+          "seconds": 22.078
+        }
+      ],
+      "seconds": 41.641
+    },
+    {
+      "id": "holdout_impossible_april",
+      "cohort": "fresh_holdout",
+      "detection": {
+        "expected": 1,
+        "detected": 1,
+        "missed": [],
+        "false_positives": []
+      },
+      "observed_issues": [
+        {
+          "record": 1,
+          "field": "signup_date",
+          "kind": "date_format"
+        }
+      ],
+      "investigation_failed": false,
+      "investigation_error": "",
+      "rule_candidate_coverage": {
+        "expected": 0,
+        "selected_correctly": 0
+      },
+      "value_request": {
+        "issues": [
+          {
+            "issue_id": 0,
+            "field": "signup_date",
+            "current_value": "04/31/2028",
+            "issue_types": [
+              "date_format"
+            ],
+            "rules": {
+              "required": true,
+              "unique": false,
+              "date_format": {
+                "input": "%m/%d/%Y",
+                "output": "%Y-%m-%d"
+              }
+            }
+          }
+        ]
+      },
+      "value_targets": [
+        {
+          "issue_id": 0,
+          "record": 1,
+          "field": "signup_date",
+          "current_value": "04/31/2028",
+          "issue_types": [
+            "date_format"
+          ]
+        }
+      ],
+      "value_fallback": false,
+      "delivered_suggestions": [
+        {
+          "issue_id": 0,
+          "record": 1,
+          "field": "signup_date",
+          "current_value": "04/31/2028",
+          "disposition": "abstain",
+          "value": null,
+          "rationale": "The date '04/31/2028' is impossible because April has only 30 days. Correcting this requires knowing whether the intended day was 04/30, 05/01, or a different date entirely. Without access to a trusted source or original document to verify the intended date, any modification would be inventing facts. Per policy, impossible or ambiguous dates must be abstained from rather than guessed.",
+          "local_validation": "not_applicable",
+          "message": "Needs your input."
+        }
+      ],
+      "cell_scores": [
+        {
+          "record": 1,
+          "field": "signup_date",
+          "evidence": "must_abstain",
+          "gold_value": "2028-05-01",
+          "raw": {
+            "disposition": "abstain",
+            "value": null,
+            "suggested": false,
+            "incorrect": false,
+            "unnecessary_refusal": false,
+            "correct": false,
+            "hypothesis_truth_mismatch": false
+          },
+          "delivered": {
+            "disposition": "abstain",
+            "value": null,
+            "suggested": false,
+            "incorrect": false,
+            "unnecessary_refusal": false,
+            "correct": false,
+            "hypothesis_truth_mismatch": false
+          }
+        }
+      ],
+      "reviewed_outcome": {
+        "expected": "complete",
+        "passed": true,
+        "exported": true,
+        "approval_decisions": 2,
+        "source_preserved": true,
+        "exact_output_match": true,
+        "note": "Known fixture facts and both approvals were scripted by the evaluator; this is not autonomous completion."
+      },
+      "calls": [
+        {
+          "phase": "investigation",
+          "content": "",
+          "tool_calls": [
+            {
+              "name": "profile_dataset",
+              "args": {},
+              "id": "chatcmpl-tool-a9e3d168d4b14c00",
+              "type": "tool_call"
+            },
+            {
+              "name": "lookup_rules",
+              "args": {},
+              "id": "chatcmpl-tool-aee038b82c968106",
+              "type": "tool_call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 531,
+            "output_tokens": 132,
+            "total_tokens": 663,
+            "input_token_details": {},
+            "output_token_details": {}
+          },
+          "seconds": 1.86
+        },
+        {
+          "phase": "investigation",
+          "content": "",
+          "tool_calls": [
+            {
+              "name": "validate_dataset",
+              "args": {},
+              "id": "chatcmpl-tool-b746a1baa775c70f",
+              "type": "tool_call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 634,
+            "output_tokens": 74,
+            "total_tokens": 708,
+            "input_token_details": {},
+            "output_token_details": {}
+          },
+          "seconds": 1.703
+        },
+        {
+          "phase": "investigation",
+          "content": "",
+          "tool_calls": [
+            {
+              "name": "preview_repairs",
+              "args": {},
+              "id": "chatcmpl-tool-95558d8a852df7e9",
+              "type": "tool_call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 684,
+            "output_tokens": 52,
+            "total_tokens": 736,
+            "input_token_details": {},
+            "output_token_details": {}
+          },
+          "seconds": 1.469
+        },
+        {
+          "phase": "investigation",
+          "content": "",
+          "tool_calls": [
+            {
+              "name": "validate_dataset",
+              "args": {},
+              "id": "chatcmpl-tool-80dcf3c32c50cbdd",
+              "type": "tool_call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 742,
+            "output_tokens": 138,
+            "total_tokens": 880,
+            "input_token_details": {},
+            "output_token_details": {}
+          },
+          "seconds": 1.625
+        },
+        {
+          "phase": "investigation",
+          "content": "",
+          "tool_calls": [
+            {
+              "name": "preview_repairs",
+              "args": {},
+              "id": "chatcmpl-tool-9c7990e772bd0575",
+              "type": "tool_call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 792,
+            "output_tokens": 112,
+            "total_tokens": 904,
+            "input_token_details": {},
+            "output_token_details": {}
+          },
+          "seconds": 1.609
+        },
+        {
+          "phase": "investigation",
+          "content": "\n\n{\"candidate_ids\":[]}",
+          "tool_calls": [],
+          "usage": {
+            "input_tokens": 850,
+            "output_tokens": 121,
+            "total_tokens": 971,
+            "input_token_details": {},
+            "output_token_details": {}
+          },
+          "seconds": 1.75
+        },
+        {
+          "phase": "values",
+          "content": "\n\n{\n  \"suggestions\": [\n    {\n      \"issue_id\": 0,\n      \"disposition\": \"abstain\",\n      \"value\": null,\n      \"rationale\": \"The date '04/31/2028' is impossible because April has only 30 days. Correcting this requires knowing whether the intended day was 04/30, 05/01, or a different date entirely. Without access to a trusted source or original document to verify the intended date, any modification would be inventing facts. Per policy, impossible or ambiguous dates must be abstained from rather than guessed.\"\n    }\n  ]\n}",
+          "tool_calls": [],
+          "usage": {
+            "input_tokens": 411,
+            "output_tokens": 1797,
+            "total_tokens": 2208,
+            "input_token_details": {},
+            "output_token_details": {}
+          },
+          "seconds": 18.516
+        }
+      ],
+      "seconds": 29.734
+    },
+    {
+      "id": "holdout_declared_day_first",
+      "cohort": "fresh_holdout",
+      "detection": {
+        "expected": 1,
+        "detected": 1,
+        "missed": [],
+        "false_positives": []
+      },
+      "observed_issues": [
+        {
+          "record": 1,
+          "field": "signup_date",
+          "kind": "date_format"
+        }
+      ],
+      "investigation_failed": false,
+      "investigation_error": "",
+      "rule_candidate_coverage": {
+        "expected": 1,
+        "selected_correctly": 1
+      },
+      "value_request": null,
+      "value_targets": [],
+      "value_fallback": null,
+      "delivered_suggestions": [],
+      "cell_scores": [],
+      "reviewed_outcome": {
+        "expected": "complete",
+        "passed": true,
+        "exported": true,
+        "approval_decisions": 2,
+        "source_preserved": true,
+        "exact_output_match": true,
+        "note": "Known fixture facts and both approvals were scripted by the evaluator; this is not autonomous completion."
+      },
+      "calls": [
+        {
+          "phase": "investigation",
+          "content": "",
+          "tool_calls": [
+            {
+              "name": "profile_dataset",
+              "args": {},
+              "id": "chatcmpl-tool-a16179834fd3e229",
+              "type": "tool_call"
+            },
+            {
+              "name": "lookup_rules",
+              "args": {},
+              "id": "chatcmpl-tool-a79b12025723dfef",
+              "type": "tool_call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 531,
+            "output_tokens": 121,
+            "total_tokens": 652,
+            "input_token_details": {},
+            "output_token_details": {}
+          },
+          "seconds": 2.031
+        },
+        {
+          "phase": "investigation",
+          "content": "",
+          "tool_calls": [
+            {
+              "name": "validate_dataset",
+              "args": {},
+              "id": "chatcmpl-tool-a4935680cde466f9",
+              "type": "tool_call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 634,
+            "output_tokens": 90,
+            "total_tokens": 724,
+            "input_token_details": {},
+            "output_token_details": {}
+          },
+          "seconds": 1.797
+        },
+        {
+          "phase": "investigation",
+          "content": "",
+          "tool_calls": [
+            {
+              "name": "preview_repairs",
+              "args": {},
+              "id": "chatcmpl-tool-a95af7ab11106dca",
+              "type": "tool_call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 684,
+            "output_tokens": 50,
+            "total_tokens": 734,
+            "input_token_details": {},
+            "output_token_details": {}
+          },
+          "seconds": 0.844
+        },
+        {
+          "phase": "investigation",
+          "content": "",
+          "tool_calls": [
+            {
+              "name": "validate_dataset",
+              "args": {},
+              "id": "chatcmpl-tool-b3077ea5577e853e",
+              "type": "tool_call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 759,
+            "output_tokens": 93,
+            "total_tokens": 852,
+            "input_token_details": {},
+            "output_token_details": {}
+          },
+          "seconds": 2.453
+        },
+        {
+          "phase": "investigation",
+          "content": "",
+          "tool_calls": [
+            {
+              "name": "validate_dataset",
+              "args": {},
+              "id": "chatcmpl-tool-b0c57317e323513c",
+              "type": "tool_call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 809,
+            "output_tokens": 178,
+            "total_tokens": 987,
+            "input_token_details": {},
+            "output_token_details": {}
+          },
+          "seconds": 2.109
+        },
+        {
+          "phase": "investigation",
+          "content": "",
+          "tool_calls": [
+            {
+              "name": "validate_dataset",
+              "args": {},
+              "id": "chatcmpl-tool-86c9a402378e6b96",
+              "type": "tool_call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 859,
+            "output_tokens": 201,
+            "total_tokens": 1060,
+            "input_token_details": {},
+            "output_token_details": {}
+          },
+          "seconds": 2.391
+        },
+        {
+          "phase": "investigation",
+          "content": "",
+          "tool_calls": [
+            {
+              "name": "validate_dataset",
+              "args": {},
+              "id": "chatcmpl-tool-a512972aad8c3e83",
+              "type": "tool_call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 909,
+            "output_tokens": 207,
+            "total_tokens": 1116,
+            "input_token_details": {},
+            "output_token_details": {}
+          },
+          "seconds": 2.734
+        },
+        {
+          "phase": "investigation",
+          "content": "",
+          "tool_calls": [
+            {
+              "name": "validate_dataset",
+              "args": {},
+              "id": "chatcmpl-tool-974047aa0cf6eb99",
+              "type": "tool_call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 959,
+            "output_tokens": 211,
+            "total_tokens": 1170,
+            "input_token_details": {},
+            "output_token_details": {}
+          },
+          "seconds": 2.375
+        },
+        {
+          "phase": "investigation",
+          "content": "",
+          "tool_calls": [
+            {
+              "name": "validate_dataset",
+              "args": {},
+              "id": "chatcmpl-tool-96a19409aa16b3e1",
+              "type": "tool_call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 1009,
+            "output_tokens": 184,
+            "total_tokens": 1193,
+            "input_token_details": {},
+            "output_token_details": {}
+          },
+          "seconds": 2.5
+        },
+        {
+          "phase": "investigation",
+          "content": "\n\n{\"use_all_candidates\":true}",
+          "tool_calls": [],
+          "usage": {
+            "input_tokens": 1059,
+            "output_tokens": 90,
+            "total_tokens": 1149,
+            "input_token_details": {},
+            "output_token_details": {}
+          },
+          "seconds": 1.391
+        }
+      ],
+      "seconds": 21.516
+    }
+  ],
+  "cohorts": {
+    "exception_knowledge": {
+      "cases": 1,
+      "expected_issues": 1,
+      "missed_issues": 0,
+      "false_positive_issues": 0,
+      "value_targets": 1,
+      "answerable_value_targets": 0,
+      "value_fallback_cases": 0,
+      "investigation_failures": 0,
+      "rule_backed_gold_changes": 0,
+      "rule_backed_changes_selected": 0,
+      "reviewed_outcomes_passed": 1,
+      "unsafe_ready_for_approval": 0,
+      "raw": {
+        "suggestions": 0,
+        "incorrect_suggestions": 0,
+        "unnecessary_refusals": 0,
+        "correct_answerable_suggestions": 0,
+        "missing_items": 0,
+        "hypothesis_truth_mismatches": 0
+      },
+      "delivered": {
+        "suggestions": 0,
+        "incorrect_suggestions": 0,
+        "unnecessary_refusals": 0,
+        "correct_answerable_suggestions": 0,
+        "missing_items": 0,
+        "hypothesis_truth_mismatches": 0
+      }
+    },
+    "fresh_holdout": {
+      "cases": 2,
+      "expected_issues": 2,
+      "missed_issues": 0,
+      "false_positive_issues": 0,
+      "value_targets": 1,
+      "answerable_value_targets": 0,
+      "value_fallback_cases": 0,
+      "investigation_failures": 0,
+      "rule_backed_gold_changes": 1,
+      "rule_backed_changes_selected": 1,
+      "reviewed_outcomes_passed": 2,
+      "unsafe_ready_for_approval": 0,
+      "raw": {
+        "suggestions": 0,
+        "incorrect_suggestions": 0,
+        "unnecessary_refusals": 0,
+        "correct_answerable_suggestions": 0,
+        "missing_items": 0,
+        "hypothesis_truth_mismatches": 0
+      },
+      "delivered": {
+        "suggestions": 0,
+        "incorrect_suggestions": 0,
+        "unnecessary_refusals": 0,
+        "correct_answerable_suggestions": 0,
+        "missing_items": 0,
+        "hypothesis_truth_mismatches": 0
+      }
+    }
+  },
+  "finished_at_utc": "2026-10-26T03:54:11.454468+00:00",
+  "total_calls": 27,
+  "total_tokens": 27490
+}

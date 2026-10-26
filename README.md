@@ -96,6 +96,31 @@ The correction form follows the uploaded rules. Date fields use a calendar and s
 
 Expand **Optional: Fix individual fields** to use the guided correction form. Under **Fix a field**, use **Choose a field to fix**, select **New date** or enter **New value**, and complete **Why is this correct?** Select **Add correction to draft** (or **Update correction in draft**). Review the before/after preview and remaining issue count, then submit the revised plan. Unadded form changes must be added or discarded before submission or approval. Draft edits stay in the current browser session when switching appearance or returning to the workspace; submitting the plan saves the proposal durably. **Final corrections — editable draft** is always visible for direct edits and explicit record removals. Neither editing method approves a write or export.
 
+
+### Email syntax and conditional date policies
+
+These rules are opt-in. Existing jobs keep their saved rules; create a new job with the updated JSON to enforce a newly added policy. Resetting an old job reuses its old rules.
+
+```json
+{
+  "required_columns": ["email", "signup_date", "country"],
+  "email_columns": ["email"],
+  "date_formats": {
+    "signup_date": {"input": "%m/%d/%Y", "output": "%Y-%m-%d"}
+  },
+  "conditional_dates": [
+    {"column": "signup_date", "when_column": "country", "equals": "GB",
+     "min_date": "2027-01-01"}
+  ]
+}
+```
+
+- `email_columns` checks ASCII mailbox syntax and a dotted domain. It accepts addresses such as `o'neil+tag@sub.example.co.uk`; it does not verify delivery, ownership, quoted local parts or internationalized email addresses. Blank values are governed by `required_columns`.
+- `conditional_dates` uses exact, case-sensitive matching and inclusive ISO bounds (`min_date`, `max_date`, or both). Every target needs a `date_formats` entry. Matching records must satisfy every applicable rule. Missing configured columns block the job.
+- A date outside policy bounds may be a true date for an ineligible record. Do not change it just to pass. Confirm the source or resolve the intake-policy decision. Date and email guesses without supporting evidence remain unresolved.
+
+Try [customers_policy_review.csv](samples/customers_policy_review.csv) with [import_rules_policy.json](samples/import_rules_policy.json). Expect **three issues**: record 1's email syntax and GB date restriction, plus record 2's impossible date. Record 3 is exactly on the allowed boundary. These are fictional records; no corrected email or intended date is implied by their syntax.
+
 ## Offline and live modes
 
 **Offline** runs the real LangGraph workflow, SQLite persistence, engine, previews, and approval gates. It uses deterministic proposals and makes no language-model requests. This is useful for learning and repeatable validation, but it is not evidence of live model performance.
@@ -121,7 +146,7 @@ A failed model investigation is separate from problems in the data. The job stil
 
 **Prepare AI-assisted draft** prepares rule-backed repairs and possible corrected values in one action. All affected fields are included automatically; there is no field-selection step. For a live job, inspect **Preview data shared with AI** and authorize that exact request before preparing. Only affected values, field names, issue types, and relevant rules are shared; unrelated fields and unsaved edits are excluded. Offline jobs use local rules without calling a model. Existing edits are preserved, and preparing a draft does not submit or approve repairs.
 
-The compact **AI-proposed fixes** table sits immediately above **Final corrections — editable draft**. It shows each affected record and field, current and proposed values, status, and explanation. Choose **Add available suggestions to draft** to copy usable candidates together, then edit the final table and submit it for review. Unknown facts remain blank and marked **Needs your input**. The model may suggest `2026-02-28` for February 30, but it cannot identify a country from `ZZ` or recover a missing customer ID. Passing rules does not establish factual accuracy. Provider failure leaves manual correction available, and both repair and export approvals remain separate. Each request needs fresh consent. Requests currently cover up to 20 affected cells, with an explicit notice if additional cells need manual review.
+The compact **AI-proposed fixes** table sits immediately above **Final corrections — editable draft**. It shows each affected record and field, current and proposed values, status, and explanation. Choose **Add available suggestions to draft** to copy usable candidates together, then edit the final table and submit it for review. Unknown facts remain blank and marked **Needs your input**. Impossible or ambiguous dates remain **Needs your input**: confirm the intended date from a trusted source, then use the calendar or final corrections table. Only conversions of real dates using declared formats are suggested. The agent also cannot identify a country from `ZZ`, recover a missing customer ID, or infer an email address from syntax rules. Passing rules does not establish factual accuracy. Provider failure leaves manual correction available, and both repair and export approvals remain separate. Each request needs fresh consent. Requests currently cover up to 20 affected cells, with an explicit notice if additional cells need manual review.
 
 ## Scope and rules
 
@@ -131,7 +156,7 @@ The local import preview shows the chosen table and conversion notes before a jo
 
 Uploads are limited to **10 MiB, 100,000 data rows, 200 columns, and 1 million cells**. The parsers also bound decoded or expanded content. Approved downloads are a new **CSV**, audit JSON, and validation summary; they do not reproduce workbook styling, multiple worksheets, or typed JSON output. The original uploaded file remains available from the job.
 
-Validation supports required fields, exact duplicate rows, configured unique fields, explicitly declared date formats, and allowed categories with explicit aliases. Type-distinct imported values are not automatically merged just because their text view matches. Conflicting identities need a human decision; there is no fuzzy merging or guessing.
+Validation supports required fields, exact duplicate rows, configured unique fields, explicitly declared date formats, allowed categories with explicit aliases, opt-in email syntax, and conditional date bounds. Type-distinct imported values are not automatically merged just because their text view matches. Conflicting identities need a human decision; there is no fuzzy merging or guessing.
 
 Use `samples/import_rules.json` as a template:
 
@@ -208,7 +233,7 @@ The ten-scenario evaluation covers clean data, duplicate removal, category alias
 
 The [project documentation](docs/Lumen-Row-Project-Documentation.docx) includes the primer, framework, architecture, datasets, coding prompts, iterations, learnings, and a five-minute demo outline. A [PDF copy](docs/Lumen-Row-Project-Documentation.pdf) is available for reading. Upload the editable document to Google Drive and open it with Google Docs; add the shared document URL and your Loom recording URL when ready. The repository is https://github.com/krish339-ai/DataQualityAgent. No form submission is made by setup.
 
-## Fresh Nebius evaluation
+## Baseline Nebius evaluation before fixes
 
 A new 14-case study uses the configured `Qwen/Qwen3.5-397B-A17B` model through the actual LangChain/LangGraph workflow. The fictional records and gold answers were fixed before the calls. This is separate from the ten offline scenarios, parser tests, and any research-paper or CMS evaluation.
 
@@ -221,7 +246,7 @@ A new 14-case study uses the configured `Qwen/Qwen3.5-397B-A17B` model through t
 
 The issue detector is Python, so issue recall is **system validation coverage**, not LLM detection accuracy. Raw and guarded suggestions are scored separately. The date hypothesis (`2027-02-28`) passed format checks but the fixture ledger specified `2027-03-01`; the evaluator counted that factual mismatch rather than hiding it behind an “unverified” label. The seven answerable semantic corrections were correct, and every one of the fourteen requested value items received a response.
 
-The two coverage probes contain a conditional signup-date restriction and an email syntax requirement that the current rules cannot express. Both reached repair approval despite missing those full-source requirements. The evaluator withheld approval. These remain **known limitations**, not fixed validation features. Complete business-policy coverage requires an explicit source-to-rules review and future schema support.
+In this **baseline run before the fixes**, the two probes contained policies the schema could not express: a conditional signup-date restriction and email syntax. Both reached repair approval; the evaluator withheld approval. The new rule types described above address these two gaps when explicitly configured. The original results remain unchanged for comparison; an omitted policy still cannot be inferred automatically.
 
 The evaluator completed eleven repairable fixtures using known reviewer facts, exact expected outputs and both scripted approvals. One excluded-country fixture correctly stayed unresolved. These are human-assisted workflow outcomes, not autonomous factual accuracy. No production prompt or guardrail was changed to improve the measured results.
 
@@ -241,7 +266,37 @@ python scripts/evaluate_nebius.py --live --consent-synthetic --only coverage_mis
 python -m pytest tests/test_live_evaluation_scoring.py -q
 ```
 
-Each run writes to a new ignored folder under `tmp/nebius-evaluation/`. Six evaluator tests passed; the earlier 422-test release suite and 10/10 offline results remain separate evidence. One initial pass on fourteen deliberately constructed cases does not establish general reliability or a stable refusal rate. Next steps are independently reviewed datasets, repeated live runs, and implementation of the missing rule types.
+Each run writes to a new ignored folder under `tmp/nebius-evaluation/`. Six evaluator tests passed; the earlier 422-test release suite and 10/10 offline results remain separate evidence. One initial pass on fourteen deliberately constructed cases does not establish general reliability or a stable refusal rate. Next steps are independently reviewed datasets and repeated live runs. The follow-up below records implementation and evaluation of the missing rule types.
+
+## Follow-up after validation and date fixes
+
+The fresh provider rerun used the same Nebius model at temperature 0. The original 14 cases are regression comparisons; the two policy probes now include explicit email and conditional-date rules. Four additional pre-labeled fictional cases are reported separately. This is **not** a second unseen 18-case benchmark.
+
+| Cohort | Cases | Missed / expected | False alarms | Wrong raw / visible | Unnecessary refusals raw / visible |
+| --- | ---: | ---: | ---: | --- | --- |
+| Declared rules (regression) | 4 | 0/7 | 0 | No values proposed; No values proposed | Not applicable |
+| Semantic repairs (regression) | 4 | 0/7 | 0 | 0/7; 0/7 | 0/7; 0/7 |
+| Exceptions and knowledge (regression) | 4 | 0/7 | 0 | No values proposed; No values proposed | Not applicable |
+| Formerly omitted policies (now encoded) | 2 | 0/2 | 0 | No values proposed; No values proposed | Not applicable |
+| New holdout cases | 4 | 0/6 | 0 | No values proposed; No values proposed | Not applicable |
+
+**Before → after:** the two source-policy misses became 0/2 when those requirements were encoded. The non-leap-year date previously produced a wrong February 28 hypothesis; the rerun asks for the intended date. Fourteen necessary abstentions are kept separate from the 0/7 unnecessary refusals on answerable semantic requests.
+
+Across the 18 cases, all **29 expected issues** were detected with **zero false alarms**. All **8 expected deterministic changes** were selected, all **7 semantic suggestions** were correct, and all **21 requested value items** received responses. All **18 reviewed outcomes** passed: 13 exact exports with scripted source facts and two approvals, plus five correctly held cases. This measures the reviewed workflow, not autonomous completion. There were no investigation failures or value fallbacks.
+
+The [complete rerun](docs/evaluations/nebius-fixed-v2.json) records **105 requests / 109,299 tokens** at commit `b44cc75`. Corpus and protocol are in [nebius_fixed_v2](evaluations/nebius_fixed_v2/). The original baseline and its email retry remain unchanged.
+
+A [separate final-code date check](docs/evaluations/nebius-date-followup-v2.json) at `176ee0b` passed **3/3 cases**, using **27 requests / 27,490 tokens**. It checks two impossible dates and one declared day-first conversion after strengthening evidence checks for saved manual edits. These repeated cases are not pooled with the 18-case run. Local tests additionally verify that an original conversion cannot override a newer invalid manual date or reinterpret a valid output date to satisfy policy.
+
+The final local regression suite passed **457 tests** with no failures or errors. The existing ten offline scenarios remain separate. These are small synthetic evaluations; independent annotation and repeated runs are still needed before making production reliability claims.
+
+```bash
+python scripts/evaluate_nebius.py --suite fixed-v2
+python scripts/evaluate_nebius.py --suite fixed-v2 --live --consent-synthetic
+python scripts/evaluate_nebius.py --suite fixed-v2 --live --consent-synthetic --only knowledge_nonleap_date holdout_impossible_april holdout_declared_day_first
+```
+
+The per-run network ceiling is 120 requests. Every run has a new output folder; failed or partial runs are never silently replaced. Evaluation uses only committed fictional data, not saved customer jobs.
 
 ## About the author
 

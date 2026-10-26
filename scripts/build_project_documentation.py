@@ -74,7 +74,7 @@ def content():
        ("h", "Project overview"),
        ("p", "Customer imports often fail because dates use different formats, countries use inconsistent labels, identifiers are missing, or rows are duplicated. Lumen Row makes those problems visible, proposes traceable repairs, and asks the user for facts it cannot establish. A valid file must satisfy the declared rules and pass both approval gates before export."),
        ("h", "Scope"),
-       ("p", "This release accepts CSV, TSV, XLSX, flat JSON, JSONL and NDJSON, then normalizes one table for customer-import checks. It supports required fields, uniqueness, exact duplicates, declared date formats, category aliases and export-safety checks. Output is a new CSV with an audit JSON and validation summary."),
+       ("p", "This release accepts CSV, TSV, XLSX, flat JSON, JSONL and NDJSON, then normalizes one table for customer-import checks. It supports required fields, uniqueness, exact duplicates, declared date formats, category aliases, optional email syntax, conditional date bounds and export-safety checks. Output is a new CSV with an audit JSON and validation summary."),
        ("p", "The app runs for a trusted local user. Authentication, multi-user tenancy, fuzzy entity merging, nested JSON, OCR, PDF extraction and preserving Excel formatting are outside the current scope. It cannot establish a missing customer fact merely because a replacement would pass validation."),
        ("link", ("GitHub repository", REPO)),
        ("link", ("Author on LinkedIn", LINKEDIN)),
@@ -114,7 +114,7 @@ def content():
        ("p", "A proposal is an intended change, not permission to write. The user can revise a draft and inspect its before-and-after result before saving it for review. Repair approval binds to the job, original source, rules and exact plan; changing any of them invalidates the old permission."),
        ("p", "Python creates a separate staged copy after repair approval and validates it again. Export approval additionally checks the staged bytes. A failed validation or stale approval stops the write path. The original file remains available throughout."),
        ("table", (["Event", "User-visible response"], [
-         ["Impossible date or unknown country", "Show the blocking finding and ask for a known correction. A valid-looking hypothesis is still unverified."],
+         ["Impossible date or unknown country", "Show the blocking finding and ask for a known correction. Do not invent a date or infer a country from an unknown marker."],
          ["Model returns an invalid plan twice", "Stop the investigation without changing data; show local findings and offer Continue with manual corrections when recovery is eligible."],
          ["Provider timeout or rate limit", "Retry transient errors up to three attempts. If exhausted, explain the failure and keep the saved job available."],
          ["Data or plan changes after approval", "Reject the stale approval and require review of the new content."],
@@ -127,7 +127,7 @@ def content():
       ],
       [
        ("h", "Datasets and validation rules"),
-       ("p", "All committed examples are fictional and use example.com addresses. No real customer jobs, API credentials, local databases or generated user outputs are part of the repository."),
+       ("p", "All committed examples are fictional and use illustrative email addresses. No real customer jobs, API credentials, local databases or generated user outputs are part of the repository."),
        ("table", (["Dataset", "Purpose and expected result"], [
          ["samples/customers_positive.csv", "Eight input records with duplicates, date formats and country aliases. Rule-backed repairs produce seven records and no blocking issues."],
          ["samples/customers_negative.csv", "Two records: an impossible February 30 date, unknown ZZ country and missing customer ID. Three blockers require human knowledge."],
@@ -141,15 +141,15 @@ def content():
          ["Unique identifier", "customer_id must be unique. Treat it as text so 00104 keeps its leading zeros."],
          ["Date conversion", "Input %m/%d/%Y means MM/DD/YYYY. Output %Y-%m-%d means YYYY-MM-DD. 10/05/2026 becomes 2026-10-05."],
          ["Country categories", "US, CA and GB are allowed. Explicit aliases such as Canada -> CA and uk -> GB can be repaired; ZZ has no known mapping."],
-         ["Limits of these rules", "Required email does not mean email syntax or ownership is checked. A passing date format does not prove the intended signup date."],
+         ["Limits of these rules", "Required email only checks presence. Opt into email_columns for syntax and conditional_dates for matching-record date bounds. Neither verifies ownership or factual truth."],
        ], [1.8,5.0])),
       ],
       [
        ("h", "Worked negative scenario"),
        ("p", "Create a Negative test job from the review hub. Record 1 contains 02/30/2026 and ZZ; record 2 has no customer_id. The expected initial count is three blockers. These are data problems even if the model investigation also fails."),
        ("image", ("images/ai-proposed-fixes.png",6.8,3.825)),
-       ("caption", "Figure 2. Compact suggestion and correction tables with fictional data. This UI capture uses controlled suggestions; live model wording may differ."),
-       ("p", "Prepare AI-assisted draft includes all affected fields. In live mode, inspect the payload preview and authorize the request first. Add available suggestions to draft, then review or edit the final correction table. Country and identifier values remain blank when there is no evidence; a suggested month-end date still needs confirmation."),
+       ("caption", "Figure 2. Historical UI capture with controlled suggestions. The date hypothesis shown here is now withheld; impossible dates require source confirmation."),
+       ("p", "Prepare AI-assisted draft includes all affected fields. In live mode, inspect the payload preview and authorize the request first. Add available suggestions to draft, then review or edit the final correction table. Unknown countries, identifiers and impossible dates remain blank. Confirm the intended date from a trusted source, then choose it in the calendar; do not assume a month-end correction."),
        ("table", (["Record", "Field", "Known sample correction", "Reason"], [
          ["1", "signup_date", "2026-02-28", "Intended date supplied for this fictional test."],
          ["1", "country", "CA", "Known sample country; not inferred from ZZ."],
@@ -231,6 +231,9 @@ def content():
     live_path = OUT / "evaluations/nebius-fresh-v1.json"
     if live_path.exists():
         pages[8:8] = live_evaluation_pages(json.loads(live_path.read_text(encoding="utf-8")))
+    fixed_path = OUT / "evaluations/nebius-fixed-v2.json"
+    if fixed_path.exists():
+        pages[10:10] = fixed_evaluation_pages(json.loads(fixed_path.read_text(encoding="utf-8")))
     return pages
 
 
@@ -257,7 +260,7 @@ def live_evaluation_pages(report):
     hypothesis_label='date hypothesis' if hypothesis_errors==1 else 'date hypotheses'
     return [
       [
-       ('h','Fresh Nebius evaluation method'),
+       ('h','Baseline Nebius evaluation method'),
        ('p',f"A new 14-case study used Nebius model {report['model']} at temperature 0. The records, expected issue locations and correction answers were fixed before the calls. This is a single-pass study of fictional fixtures, separate from the earlier ten offline cases and regression suite."),
        ('p','The study applies the previous project feedback to exception handling, coverage across multiple items, and unnecessary refusals. Four cohorts remain separate: declared rules, semantic corrections, exception and missing-knowledge cases, and full-source coverage probes. Research-paper and CMS results are not pooled into these numbers.'),
        ('table',(['Measure','Definition'],[
@@ -267,22 +270,76 @@ def live_evaluation_pages(report):
          ['Coverage across items','Check response items for every affected cell, including batches with multiple records. Keep raw output separate from what safeguards allow through.'],
          ['Complete reviewed outcome','For repairable fixtures, require exact expected output, preserved originals and both scripted approvals. For hold cases, an approval-ready state is a failure even if the evaluator withholds approval.'],
        ],[1.65,5.15])),
-       ('p','The model receives the normal production context: aggregate references for investigation and consented affected values/rules for value assistance. Gold answers and source notes are withheld. Two source-coverage cases intentionally contain requirements that cannot be represented by the current rule schema, testing the system boundary rather than expecting the model to know an undisclosed policy.'),
+       ('p','The model receives the normal production context: aggregate references for investigation and consented affected values/rules for value assistance. Gold answers and source notes are withheld. Two source-coverage cases intentionally contain requirements that could not be represented by the baseline rule schema, testing the system boundary rather than expecting the model to know an undisclosed policy.'),
        ('p','The evaluation runner saves each exact fictional request preview before sending it. It records model replies, tool calls, tokens, corpus and runner hashes, and the application commit. It never uses saved customer jobs or publishes API credentials. No production prompt or guardrail was tuned to improve this run.'),
        ('p','Reproduce a local preflight with: python scripts/evaluate_nebius.py. Live calls require: python scripts/evaluate_nebius.py --live --consent-synthetic. The command uses your configured provider key, incurs normal provider usage, and writes job artifacts only to ignored tmp storage.'),
       ],
       [
-       ('h','Fresh Nebius results by cohort'),
+       ('h','Baseline Nebius results by cohort'),
        ('table',(['Cohort','Cases','Missed / expected','False alarms'],detection_rows,[2.5,.65,1.95,1.7])),
        ('p','The source-coverage misses are a conditional signup-date policy and email syntax. Both records satisfy the supplied JSON checks, so the app reaches repair approval despite those omitted requirements. The evaluator withholds approval; a clean validation result is not evidence that the full business policy has been covered.'),
        ('table',(['Value cohort','Stage','Wrong / proposed','Refused / answerable'],suggestion_rows,[1.9,1.3,1.65,1.95])),
        ('p',f"The factual error total includes {raw_errors} incorrect or unsupported determinate proposals and {hypothesis_errors} {hypothesis_label} inconsistent with the hidden source ledger. Nebius suggested 2027-02-28; the fixture ledger specifies 2027-03-01. Raw item coverage was {targets-missing} of {targets} requested cells. Six unknown-fact cells received necessary abstentions."),
        ('p',f"The declared-rule investigator selected {cohorts['declared_rules']['rule_backed_changes_selected']} of {cohorts['declared_rules']['rule_backed_gold_changes']} expected transformations. Scripted review produced {complete} exact corrected outputs with original files preserved and two approvals each. This measures the combined workflow with known reviewer facts, not autonomous correction accuracy."),
        ('p',f"The initial run made {report.get('total_calls','unavailable')} model requests and reported {report.get('total_tokens','unavailable')} total tokens. Its final case hit the evaluator's 75-request cap, a local stop rather than a provider refusal. The targeted retry is retained separately in docs/evaluations/nebius-coverage-retry-v1.json; the original result is unchanged. The retry also exposes the email coverage gap."),
-       ('p','Practical follow-up: review the full source policy before treating a rules file as complete; extend the schema for conditional date ranges and email syntax; keep factual date confirmation in the human review step; and repeat the study with independently labeled cases before making broad reliability claims.'),
-       ('p','These small, deliberately constructed samples describe this run only. They do not establish a stable refusal rate, production accuracy or real-user completion time. The previous offline figures remain separate. Six new evaluator tests passed, including checks that missing responses are not mislabeled as refusals. No production validation behavior was changed by this study.'),
+       ('p','This baseline motivated the email and conditional date rules and conservative date handling described next. Source-to-rules review and independently labeled repeat evaluations remain necessary.'),
+       ('p','These small, deliberately constructed samples describe this run only. They do not establish a stable refusal rate, production accuracy or real-user completion time. The previous offline figures remain separate. Six new evaluator tests passed, including checks that missing responses are not mislabeled as refusals. The original baseline artifacts remain unchanged; the follow-up records production fixes separately.'),
       ],
     ]
+
+
+def fixed_evaluation_pages(report):
+    cohorts = report['cohorts']
+    labels = {'declared_rules':'Declared rules', 'semantic_repairs':'Semantic repairs',
+              'exception_knowledge':'Exceptions and knowledge', 'source_coverage':'Encoded source policies',
+              'fresh_holdout':'New holdout cases'}
+    detection, values = [], []
+    for key, label in labels.items():
+        c = cohorts[key]
+        detection.append([label, str(c['cases']), f"{c['missed_issues']} / {c['expected_issues']}", str(c['false_positive_issues'])])
+        if c['value_targets']:
+            errors = [str(c[p]['incorrect_suggestions'] + c[p]['hypothesis_truth_mismatches']) for p in ('raw', 'delivered')]
+            refusals = [str(c[p]['unnecessary_refusals']) for p in ('raw', 'delivered')]
+            values.append([label, ' / '.join(errors), ' / '.join(refusals) if c['answerable_value_targets'] else 'Not applicable', str(c['answerable_value_targets'])])
+    passed = sum(c['reviewed_outcomes_passed'] for c in cohorts.values())
+    exported = sum(bool(x['reviewed_outcome'].get('exported')) for x in report['results'])
+    failures = sum(c['investigation_failures'] for c in cohorts.values())
+    fallback = sum(c['value_fallback_cases'] for c in cohorts.values())
+    missing = sum(c['raw']['missing_items'] for c in cohorts.values())
+    targets = sum(c['value_targets'] for c in cohorts.values())
+    followup_path = OUT / 'evaluations/nebius-date-followup-v2.json'
+    followup_text = ''
+    if followup_path.exists():
+        followup = json.loads(followup_path.read_text(encoding='utf-8'))
+        followup_passed = sum(x['reviewed_outcome']['passed'] for x in followup['results'])
+        followup_text = (f"A separate final-code date check at {followup['application_commit'][:7]} passed {followup_passed}/3 cases "
+                         f"using {followup['total_calls']} requests and {followup['total_tokens']} tokens. It checks two impossible dates and a valid "
+                         "day-first conversion after binding conversion evidence to the current saved value. Its artifact is nebius-date-followup-v2.json; "
+                         "these repeated cases are not added to the 18-case totals.")
+    return [[
+        ('h', 'Policy fixes and date clarification'),
+        ('p', 'The follow-up implements the two validation requirements missed in the baseline: email syntax and conditional date bounds. Impossible or ambiguous dates now require confirmation from a trusted source. A valid-looking nearest date is no longer offered as a correction.'),
+        ('table', (['Rule or safeguard', 'Behavior and example'], [
+            ['email_columns', 'Opt-in ASCII mailbox syntax and dotted domain checks. not-an-email fails; o\'neil+tag@sub.example.co.uk passes. Delivery and ownership are not checked. Quoted local parts and internationalized addresses are outside this contract.'],
+            ['conditional_dates', 'An exact condition activates inclusive ISO bounds. Example: column signup_date, when_column country, equals GB, min_date 2027-01-01. max_date is optional. Target columns need date_formats entries.'],
+            ['Date clarification', '02/29/2027 is impossible. The agent asks for the intended date instead of choosing February 28. Valid 03/04/2028 with declared day-first input converts to 2028-04-03.'],
+            ['Local enforcement', 'Even if the model guesses a date or malformed-email replacement, the local guard withholds it without rule-backed evidence. A true date outside policy bounds is not shifted merely to qualify.'],
+        ], [1.65, 5.15])),
+        ('p', 'Try samples/customers_policy_review.csv with samples/import_rules_policy.json. Expect three blockers: record 1 has invalid email syntax and an out-of-policy GB date; record 2 has an impossible date. Record 3 is exactly on the accepted boundary. Confirm source facts before editing and retain both approval gates.'),
+        ('p', 'Existing jobs retain their saved rules, including when reset. Create a new job with the updated rules to enforce new policies. An unencoded policy is still invisible to the validator; this update does not claim automatic understanding of undisclosed business requirements.'),
+        ('h', 'Comparison design'),
+        ('p', 'The live rerun uses the original 14 cases as regressions, explicitly encoding the two previously omitted requirements. Four new pre-labeled cases test multiple email errors, inclusive date boundaries and a nonmatching control, an impossible April date, and valid day-first conversion. New cases remain a separate cohort. The baseline date oracle now requires abstention; oracle-only source facts remain hidden from the model.'),
+    ], [
+        ('h', 'Nebius results after the fixes'),
+        ('p', f"Fresh provider calls used {report['model']} at temperature 0 against commit {report['application_commit'][:7]}. The frozen baseline and its targeted retry remain separately published. This is one follow-up pass, not an independently reviewed benchmark."),
+        ('table', (['Cohort', 'Cases', 'Missed / expected', 'False alarms'], detection, [2.5, .65, 1.95, 1.7])),
+        ('table', (['Value cohort', 'Wrong raw / visible', 'Refused raw / visible', 'Answerable cells'], values, [2.3, 1.5, 1.65, 1.35])),
+        ('p', 'Wrong counts include unsupported guesses, even a lucky guess. Refusals count only explicit abstentions on answerable value requests; necessary requests for missing facts are not errors. Date conversion candidates selected during investigation are measured separately from value suggestions.'),
+        ('p', f"The run passed {passed} of {len(report['results'])} reviewed outcomes, including {exported} exact exports after scripted oracle corrections and two approvals. Raw response coverage was {targets-missing}/{targets} requested cells. Investigation failures: {failures}; value fallback cases: {fallback}. Completion includes known reviewer facts and is not autonomous correction accuracy."),
+        ('p', f"Recorded usage: {report['total_calls']} requests and {report['total_tokens']} tokens. Raw responses, consented fictional payloads, tool calls and hashes are in docs/evaluations/nebius-fixed-v2.json. Corpus and protocol are in evaluations/nebius_fixed_v2/. Prior offline and Week 2 results are not pooled into these figures."),
+        ('p', followup_text),
+        ('p', 'Reproduce: python scripts/evaluate_nebius.py --suite fixed-v2 --live --consent-synthetic. Omit the two live flags for a local preflight. Each run has a unique output folder and a 120-request ceiling. These small synthetic samples cannot establish production accuracy or stable refusal rates; repeat with independently labeled source policies before broader claims.'),
+    ]]
 
 
 def make_docx(pages):

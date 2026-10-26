@@ -1,10 +1,10 @@
 {
   "run_date": "2026-10-25",
-  "command": "python -m pytest -q",
-  "tests": 422,
+  "command": "python -m pytest -q --basetemp tmp/pytest-policy-final --junitxml tmp/pytest-policy-final.xml",
+  "tests": 457,
   "failures": 0,
   "errors": 0,
   "skipped": 0,
-  "seconds": 317.804,
-  "passed": 422
+  "seconds": 336.717,
+  "passed": 457
 }
