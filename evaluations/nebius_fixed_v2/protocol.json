@@ -1,0 +1,40 @@
+{
+  "suite": "nebius-fixed-v2",
+  "purpose": "Verify two policy coverage fixes and conservative date handling against baseline regressions and separate new holdout cases.",
+  "source_of_truth": "The complete fictional records, import rules, source_notes and gold_cells in cases.json. Labels were authored before live calls. These are not independently annotated real-world datasets.",
+  "model_context": "Normal production investigation receives aggregate counts and candidate references. Optional value assistance receives only affected cell values and relevant JSON rules. Gold labels and source_notes are withheld.",
+  "cohorts": {
+    "declared_rules": "Four cases, including a clean control, date convention exception, exact aliases and multiple affected records.",
+    "semantic_repairs": "Four cases requiring meaningful country-text normalization beyond declared aliases.",
+    "exception_knowledge": "Four cases with unknown facts, an impossible date, excluded country and ambiguous country/identity conflicts.",
+    "source_coverage": "Two baseline probes, now with the formerly omitted requirements explicitly encoded using the new rule types.",
+    "fresh_holdout": "Four new cases: email multi-item, inclusive policy boundaries and nonmatching control, impossible April date, declared day-first conversion."
+  },
+  "metrics": {
+    "missed_issues": "Expected (record, field, issue kind) tuples absent from local validation, divided by independently listed expected issues. The engine is the issue detector; do not attribute this recall to the LLM.",
+    "false_positive_issues": "Observed issue tuples not present in the oracle. Report counts and the clean control separately.",
+    "rule_candidate_selection": "Correct rule-backed changes selected by the live investigator divided by independently checked expected deterministic candidates.",
+    "incorrect_suggestions": "Raw or delivered suggested values that disagree with an answerable gold value, plus any proposed value for a must-abstain cell. Divide by the number of suggestions in that phase. A lucky unsupported guess remains an error.",
+    "all_incorrect_or_unsupported_suggestions": "For the user-facing factual-quality total, add incorrect_suggestions and hypothesis_truth_mismatch, then divide by all suggestions. Keep these disjoint subtypes visible so a permissible but factually wrong date hypothesis is not hidden by a zero contract-error rate.",
+    "unnecessary_refusals": "Explicit abstentions on answerable value targets divided by all answerable value targets. Transport failures, malformed responses and missing items are separate availability/coverage failures, not refusals.",
+    "hypothesis_truth_mismatch": "Suggestions on ambiguous dates that disagree with the hidden fixture ledger. Report separately: a permitted, labeled hypothesis can be factually wrong without violating the suggestion contract.",
+    "item_coverage": "Number of requested cells with a response item; inspect raw and delivered output independently and retain malformed/fallback events.",
+    "reviewed_outcome": "For repairable fixtures, both scripted approvals, exact oracle output and preserved original are required. For hold fixtures, becoming approval-ready is a failure even if the evaluator withholds approval. This is human-assisted harness completion, not autonomous accuracy."
+  },
+  "design_limits": [
+    "One initial pass per case; no repeated-run reliability estimate.",
+    "Small, deliberately constructed suite; rates are descriptive and do not establish generalization.",
+    "CSV is used to isolate reasoning and rule coverage; format parser tests remain a separate offline evidence set.",
+    "No research-paper or CMS QA results are pooled with this suite.",
+    "Store every run, including failures; any targeted retry is reported separately, never substituted silently.",
+    "Live operation requires explicit --live --consent-synthetic. All jobs stay in ignored tmp storage and never touch saved user reviews.",
+    "Production changes respond to the baseline findings. The four new cases were labeled before this live run; the repeated baseline cases are regressions, not unseen evidence."
+  ],
+  "changes_from_baseline": [
+    "14 baseline regression cases (two now encode previously omitted policies), plus four new fictional holdout cases labeled before live calls. Not independently annotated. Baseline date case now requires abstention rather than a hypothesis.",
+    "Email syntax and conditional date requirements must be encoded in rules. Omitted policy is not inferred.",
+    "Expected deterministic candidates are independently enumerated in the corpus.",
+    "120-request limit; raw responses and app-filtered responses scored separately; no overwriting baseline.",
+    "Keep fresh_holdout separate from the four regression cohorts."
+  ]
+}

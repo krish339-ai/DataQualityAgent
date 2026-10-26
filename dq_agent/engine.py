@@ -12,6 +12,7 @@ import hashlib
 import io
 import json
 import os
+import re
 import shutil
 import uuid
 from collections import Counter
@@ -110,6 +111,19 @@ def _date(value: str, fmt: str) -> datetime | None:
 
 def _formula(value: str) -> bool:
     return value.lstrip(" \t\r\n").startswith(("=", "+", "-", "@")) or value.startswith(("\t", "\r", "\n"))
+
+
+def _email(value: str) -> bool:
+    """Practical ASCII mailbox syntax, not a deliverability or identity check."""
+    if len(value) > 254 or value.count("@") != 1:
+        return False
+    local, domain = value.split("@")
+    if not 1 <= len(local) <= 64 or local.startswith(".") or local.endswith(".") or ".." in local:
+        return False
+    if not re.fullmatch(r"[A-Za-z0-9.!#$%&'*+/=?^_`{|}~-]+", local):
+        return False
+    labels = domain.split(".")
+    return len(labels) >= 2 and all(re.fullmatch(r"[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?", label) for label in labels) and bool(re.fullmatch(r"[A-Za-z]{2,63}", labels[-1]))
 
 
 class Engine:
@@ -333,6 +347,8 @@ class Engine:
                            "rule_id": rule_id, "message": message, "severity": "blocking"})
 
         configured = set(rules["required_columns"]) | set(rules["unique_columns"]) | set(rules["date_formats"]) | set(rules["categories"])
+        configured.update(rules.get("email_columns", []))
+        configured.update(name for rule in rules.get("conditional_dates", []) for name in (rule["column"], rule["when_column"]))
         for column in sorted(configured - set(frame.columns)):
             add("missing_column", None, column, f"column:{column}", "A configured column is absent. Supply corrected input or rules.")
         for column in rules["required_columns"]:
@@ -350,7 +366,26 @@ class Engine:
             if column in frame:
                 for row, value in frame[column].items():
                     if value.strip() and _date(value, rule["output"]) is None:
-                        add("date_format", int(row), column, f"date:{column}", "Date does not match the declared output format.")
+                        add("date_format", int(row), column, f"date:{column}", f"Date must be a real calendar date in {rule['output']} format. Confirm the intended date if the source is invalid or ambiguous.")
+        for column in rules.get("email_columns", []):
+            if column in frame:
+                for row, value in frame[column].items():
+                    if value.strip() and not _email(value):
+                        add("email_syntax", int(row), column, f"email:{column}", "Email must have a valid ASCII mailbox and dotted domain. Confirm the address from its source.")
+        for index, rule in enumerate(rules.get("conditional_dates", [])):
+            column, condition = rule["column"], rule["when_column"]
+            if column not in frame or condition not in frame:
+                continue
+            fmt = rules["date_formats"][column]
+            for row in frame.index[frame[condition].eq(rule["equals"])]:
+                value = frame.at[row, column]
+                parsed = _date(value, fmt["output"]) or _date(value, fmt["input"])
+                if parsed is None:  # Missing/invalid dates are handled by their own rules.
+                    continue
+                iso = parsed.strftime("%Y-%m-%d")
+                if (rule.get("min_date") and iso < rule["min_date"]) or (rule.get("max_date") and iso > rule["max_date"]):
+                    add("business_qualification", int(row), column, f"conditional_date:{index}:{column}",
+                        f"When {condition} equals {rule['equals']}, date must be within inclusive bounds {rule.get('min_date') or 'unbounded'} to {rule.get('max_date') or 'unbounded'}. Confirm eligibility or the source date; do not shift it to fit.")
         for column, rule in rules["categories"].items():
             if column in frame:
                 allowed = set(rule["allowed"])

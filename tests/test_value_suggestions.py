@@ -110,7 +110,7 @@ def test_modified_disclosure_cannot_be_sent(tmp_path, mutation):
     workflow.close()
 
 
-def test_negative_date_hypothesis_is_separate_and_missing_facts_stay_unresolved(tmp_path):
+def test_negative_date_guess_is_blocked_and_missing_facts_stay_unresolved(tmp_path):
     workflow, job, fake = make_job(tmp_path)
     request = workflow.preview_value_request(job, ["signup_date", "country", "customer_id"])
     # Enforce evidence boundaries even if the provider proposes plausible-looking invented facts.
@@ -119,11 +119,8 @@ def test_negative_date_hypothesis_is_separate_and_missing_facts_stay_unresolved(
     result = workflow.suggest_values(job, request, True)
     suggestions = {item["field"]: item for item in result["suggestions"]}
     assert result["source"] == "nebius" and not result["fallback"]
-    assert suggestions["signup_date"]["value"] == "2026-02-28"
-    assert suggestions["signup_date"]["disposition"] == "suggest"
-    assert suggestions["signup_date"]["local_validation"] == "passed"
-    assert "Unverified" in suggestions["signup_date"]["message"]
-    for field in ("country", "customer_id"):
+    assert "intended date" in suggestions["signup_date"]["rationale"]
+    for field in ("signup_date", "country", "customer_id"):
         assert suggestions[field]["disposition"] == "abstain" and suggestions[field]["value"] is None
     assert "operations" not in result and "plan" not in result
     assert fake.calls == 1
@@ -178,8 +175,8 @@ def test_invalid_unsafe_or_unchanged_values_are_not_actionable(tmp_path, value):
     fake.replies = [answer(request, {"signup_date": value})]
     result = workflow.suggest_values(job, request, True)
     suggestion = result["suggestions"][0]
-    assert suggestion["disposition"] == "rejected" and suggestion["value"] is None
-    assert suggestion["local_validation"] == "rejected"
+    assert suggestion["disposition"] == "abstain" and suggestion["value"] is None
+    assert suggestion["local_validation"] == "not_applicable"
     assert fake.calls == 1 and not result["fallback"]
     workflow.close()
 
@@ -244,7 +241,8 @@ def test_valid_second_response_is_used_without_echoing_the_first(tmp_path):
     fake.replies = [AIMessage(content="UNTRUSTED_FIRST_RESPONSE"), answer(request, {"signup_date": "2026-02-28"})]
     result = workflow.suggest_values(job, request, True)
     assert fake.calls == 2 and not result["fallback"]
-    assert result["suggestions"][0]["value"] == "2026-02-28"
+    assert result["suggestions"][0]["value"] is None
+    assert result["suggestions"][0]["disposition"] == "abstain"
     assert "UNTRUSTED_FIRST_RESPONSE" not in json.dumps([m.model_dump() for m in fake.messages[1]])
     workflow.close()
 
@@ -309,7 +307,7 @@ def test_selected_field_uses_saved_manual_value_without_sending_reason(tmp_path)
     assert "PRIVATE_REASON" not in json.dumps(request)
     fake.replies = [answer(request, {"signup_date": "2026-02-28"})]
     result = workflow.suggest_values(job, request, True)
-    assert result["suggestions"][0]["local_validation"] == "passed"
+    assert result["suggestions"][0]["disposition"] == "abstain"
     assert workflow.snapshot(job)["state"]["plan"][0]["value"] == "02/29/2026"
     workflow.close()
 

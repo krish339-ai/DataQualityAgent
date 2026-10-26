@@ -41,6 +41,9 @@ def rules_for(corpus, case):
     rules["date_formats"]["signup_date"]["input"] = case.get("date_input", "%m/%d/%Y")
     rules["categories"]["country"]["aliases"] = case.get("aliases", {})
     rules["categories"]["country"]["allowed"] = case.get("allowed", ["US", "CA", "GB"])
+    for name in ("email_columns", "conditional_dates"):
+        if name in case:
+            rules[name] = copy.deepcopy(case[name])
     return rules
 
 
@@ -93,6 +96,7 @@ def score_suggestions(gold_cells, targets, raw_items, delivered):
 class RecordingModel:
     """Record model output and token counts, never credentials or HTTP headers."""
     requests_started = 0
+    request_budget = 120
     def __init__(self, client, calls, phase="values"):
         self.client, self.calls, self.phase = client, calls, phase
 
@@ -100,8 +104,8 @@ class RecordingModel:
         return RecordingModel(self.client.bind_tools(tools), self.calls, "investigation")
 
     def invoke(self, messages):
-        if RecordingModel.requests_started >= 75:
-            raise RuntimeError("Evaluation reached its 75-request network budget")
+        if RecordingModel.requests_started >= RecordingModel.request_budget:
+            raise RuntimeError("Evaluation reached its request budget")
         RecordingModel.requests_started += 1
         started = time.monotonic()
         entry = {"phase": self.phase}
@@ -219,6 +223,9 @@ def run_case(corpus, case, root):
         gold = {key(x):x for x in case["gold_cells"]}
         deterministic = workflow.engine.propose(job)
         expected_ops = [(x["row"]+1,x.get("column"),x.get("value")) for x in deterministic]
+        if "expected_candidates" in case:
+            expected_ops = [tuple(x) for x in case["expected_candidates"]]
+            assert set(expected_ops) == {(x["row"]+1,x.get("column"),x.get("value")) for x in deterministic}
         selected = {(x["row"]+1,x.get("column"),x.get("value")) for x in plan}
         # Corpus oracle validates every deterministic candidate before scoring selection.
         assert all((r,f) in gold and gold[(r,f)]["value"]==v for r,f,v in expected_ops)
@@ -255,7 +262,7 @@ def preflight(corpus,root):
     for case in corpus["cases"]:
         job = engine.create_job(csv_bytes(corpus["columns"],case["rows"]), rules_for(corpus,case))
         detection=score_detection(case["expected_issues"],engine.validate(job)["issues"])
-        if case["cohort"] != "source_coverage":
+        if corpus.get("version") != "fresh-v1" or case["cohort"] != "source_coverage":
             assert not detection["missed"] and not detection["false_positives"], (case["id"], detection)
         request=preview_request(engine,job,[],[],mode="nebius",pending_kind="clarification",revisions=0)
         request=preview_request(engine,job,[],request["available_fields"],mode="nebius",pending_kind="clarification",revisions=0)
@@ -270,13 +277,15 @@ def main():
     parser.add_argument('--live',action='store_true')
     parser.add_argument('--consent-synthetic',action='store_true')
     parser.add_argument('--only',nargs='+',help='Explicit case IDs for a separately recorded targeted run')
+    parser.add_argument('--suite', choices=['fresh-v1', 'fixed-v2'], default='fresh-v1')
     parser.add_argument('--run-name',default=datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ'))
     args=parser.parse_args()
     if not args.run_name.replace('-','').replace('_','').isalnum():
         parser.error('run-name must contain only letters, digits, hyphens and underscores')
     root=ROOT/'tmp'/'nebius-evaluation'/args.run_name
     root.mkdir(parents=True,exist_ok=False)
-    corpus=json.loads(CORPUS.read_text())
+    corpus_path = CORPUS if args.suite == 'fresh-v1' else ROOT/'evaluations/nebius_fixed_v2/cases.json'
+    corpus=json.loads(corpus_path.read_text())
     if args.only:
         known={case['id'] for case in corpus['cases']}
         if len(args.only)!=len(set(args.only)) or not set(args.only)<=known:
@@ -291,12 +300,12 @@ def main():
     os.environ['LANGSMITH_TRACING']='false'
     os.environ['LANGCHAIN_TRACING_V2']='false'
     os.environ['DQ_LANGSMITH_TRACING']='false'
-    report={"suite":"nebius-fresh-v1","provider":"nebius","model":os.getenv('NEBIUS_MODEL'),
+    report={"suite":"nebius-"+args.suite,"provider":"nebius","model":os.getenv('NEBIUS_MODEL'),
             "temperature":0,"started_at_utc":datetime.now(timezone.utc).isoformat(),
             "application_commit":subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),
-            "corpus_sha256":hashlib.sha256(CORPUS.read_bytes()).hexdigest(),
+            "corpus_sha256":hashlib.sha256(corpus_path.read_bytes()).hexdigest(),
             "runner_sha256":hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
-            "repeat_count":1,"case_selection":args.only or 'all',"network_request_budget":75,"fixture_type":"new fictional cases; oracle labels fixed before live calls",
+            "repeat_count":1,"case_selection":args.only or 'all',"network_request_budget":RecordingModel.request_budget,"fixture_type":corpus['design'],
             "review":"scripted oracle review and approvals on synthetic records only",
             "results":[]}
     for case in corpus['cases']:

@@ -1,0 +1,4 @@
+customer_id,name,email,signup_date,country
+P001,Policy Example,not-an-email,2026-12-31,GB
+P002,Calendar Example,calendar@example.com,02/29/2027,US
+P003,Boundary Example,boundary+tag@example.com,2027-01-01,GB

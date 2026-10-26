@@ -53,7 +53,7 @@ def test_network_budget_stops_before_request(monkeypatch):
     class Client:
         def invoke(self, messages):
             raise AssertionError('A network request must not start')
-    monkeypatch.setattr(RecordingModel,'requests_started',75)
+    monkeypatch.setattr(RecordingModel,'requests_started',RecordingModel.request_budget)
     calls=[]
     with pytest.raises(RuntimeError,match='budget'):
         RecordingModel(Client(),calls).invoke([])

@@ -65,6 +65,11 @@ def correction_spec(
     guidance = ["A value is required." if required else "This field may be left blank."]
     if unique:
         guidance.append("The value must be unique across the file; the preview checks this.")
+    if field in validated.email_columns:
+        guidance.append("Use a confirmed email address with an ASCII mailbox and dotted domain. Syntax checks do not verify delivery.")
+    for limit in validated.conditional_dates:
+        if limit.column == field:
+            guidance.append(f"When {limit.when_column} is {limit.equals}, inclusive date bounds are {limit.min_date or 'unbounded'} to {limit.max_date or 'unbounded'}. Confirm eligibility; do not change a true date just to fit.")
     if field in validated.categories:
         allowed = list(validated.categories[field].allowed)
         spec.update(kind="category", options=allowed, selected_value=raw if raw in allowed else None)

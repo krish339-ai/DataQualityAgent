@@ -80,6 +80,15 @@ def preview_request(engine, job_id: str, plan: list[dict], fields: list[str], *,
             field_rules["date_format"] = rules["date_formats"][field]
         if field in rules["categories"]:
             field_rules["category"] = rules["categories"][field]
+        if field in rules.get("email_columns", []):
+            field_rules["email_syntax"] = "ASCII mailbox with dotted domain; syntax only, not deliverability."
+        applicable = [{"min_date": rule.get("min_date"), "max_date": rule.get("max_date")}
+                      for rule in rules.get("conditional_dates", [])
+                      if rule["column"] == field and rule["when_column"] in frame
+                      and frame.at[row, rule["when_column"]] == rule["equals"]]
+        if applicable:
+            # Disclose only applicable bounds, not another field's customer value.
+            field_rules["applicable_date_bounds"] = applicable
         current = str(frame.at[row, field])
         kinds = sorted(set(kinds))
         offered.append({"issue_id": issue_id, "field": field, "current_value": current,
@@ -116,6 +125,10 @@ def _unsupported_fact(offered: dict, value: str, candidates: list[dict], target:
                         for candidate in candidates)
     if offered["rules"]["unique"] and not deterministic:
         return "A new or replacement identifier cannot establish the existing record's identity. Confirm it from a trusted source."
+    if offered["rules"].get("date_format") and not deterministic:
+        return "The intended date cannot be established by a format rule. Confirm it from your source and choose that date; do not guess a nearby day or shift a date to meet a policy."
+    if "email_syntax" in offered["issue_types"] and not deterministic:
+        return "Syntax rules cannot establish the intended email address. Confirm the address from your source."
     category = offered["rules"].get("category")
     if category:
         # Semantic mappings from meaningful text can be useful hypotheses (for
@@ -185,8 +198,10 @@ def suggest_values(engine, job_id: str, plan: list[dict], request: dict, *, mode
         "Never invent missing facts or unique identifiers. An allowed category list does not identify the correct country or category. "
         "Abstain for missing required facts, identifiers without a rule-backed transformation, and unknown category markers "
         "such as ZZ, unknown, or N/A. You may suggest semantic category mappings when the existing text supplies meaningful "
-        "evidence, such as U.S.A. to US or United Kingdom to GB; explicitly explain the assumption. For impossible dates, you may propose a plausible "
-        "minimal correction in the declared output format, but clearly label the assumed intended date and ask the user to confirm. "
+        "evidence, such as U.S.A. to US or United Kingdom to GB; explicitly explain the assumption. For dates, only convert a real date "
+        "using its declared input/output format. Abstain for impossible or ambiguous dates: ask for the intended date from a trusted source, "
+        "never choose the nearest valid day. Abstain for dates outside policy bounds; never shift a factual date to make it eligible. "
+        "Abstain for malformed email addresses; syntax rules cannot establish the intended address. "
         "Use only selected evidence. Do not infer from imaginary other rows. A suggestion is a hypothesis for review, "
         "not a verified fact. Abstain when the available evidence does not support a plausible correction.")),
         HumanMessage(content=_json(request["payload"]))]
