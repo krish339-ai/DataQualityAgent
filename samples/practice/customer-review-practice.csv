@@ -1,0 +1,7 @@
+customer_id,name,email,signup_date,country
+00101,Maya Sample,maya@example.com,2026-10-01,US
+00102,Owen Sample,owen@example.com,10/05/2026,Canada
+00103,Lena Sample,lena@example.com,04/31/2026,GB
+,Evan Sample,evan@example.com,2026-10-07,US
+00105,Zara Sample,zara@example.com,2026-10-08,ZZ
+00106,Theo Sample,theo@example.com,10/09/2026,uk

@@ -1,0 +1,13 @@
+# Human-maintained dependency ranges. Use requirements-lock.txt to reproduce the tested environment.
+pandas>=2.2,<3
+openpyxl==3.1.5
+defusedxml==0.7.1
+pydantic>=2.10,<3
+langchain>=1,<2
+langgraph>=1,<2
+langgraph-checkpoint-sqlite>=3,<4
+langchain-nebius>=0.1,<1
+langchain-fireworks>=1,<2
+streamlit>=1.45,<2
+python-dotenv>=1,<2
+pytest>=8,<10

@@ -1,0 +1,10 @@
+{
+  "run_date": "2026-10-25",
+  "command": "python -m pytest -q",
+  "tests": 422,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "seconds": 317.804,
+  "passed": 422
+}

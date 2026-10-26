@@ -1,0 +1,35 @@
+{
+  "required_columns": [
+    "customer_id",
+    "name",
+    "email",
+    "signup_date",
+    "country"
+  ],
+  "unique_columns": [
+    "customer_id"
+  ],
+  "date_formats": {
+    "signup_date": {
+      "input": "%m/%d/%Y",
+      "output": "%Y-%m-%d"
+    }
+  },
+  "categories": {
+    "country": {
+      "allowed": [
+        "US",
+        "CA",
+        "GB"
+      ],
+      "aliases": {
+        "us": "US",
+        "United States": "US",
+        "Canada": "CA",
+        "ca": "CA",
+        "uk": "GB",
+        "United Kingdom": "GB"
+      }
+    }
+  }
+}

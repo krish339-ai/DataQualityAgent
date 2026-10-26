@@ -1,0 +1,70 @@
+{
+  "mode": "offline",
+  "model_calls": 0,
+  "human_decisions": "scripted for built-in synthetic fixtures only",
+  "passed": 10,
+  "total": 10,
+  "results": [
+    {
+      "case": "clean",
+      "status": "complete",
+      "seconds": 0.672,
+      "passed": true
+    },
+    {
+      "case": "duplicate_pair",
+      "status": "complete",
+      "seconds": 1.047,
+      "passed": true
+    },
+    {
+      "case": "duplicate_triple",
+      "status": "complete",
+      "seconds": 0.469,
+      "passed": true
+    },
+    {
+      "case": "category_us",
+      "status": "complete",
+      "seconds": 0.484,
+      "passed": true
+    },
+    {
+      "case": "category_ca",
+      "status": "complete",
+      "seconds": 0.656,
+      "passed": true
+    },
+    {
+      "case": "date_oct",
+      "status": "complete",
+      "seconds": 0.469,
+      "passed": true
+    },
+    {
+      "case": "date_feb",
+      "status": "complete",
+      "seconds": 0.563,
+      "passed": true
+    },
+    {
+      "case": "missing_id",
+      "status": "complete",
+      "seconds": 0.515,
+      "passed": true
+    },
+    {
+      "case": "mixed",
+      "status": "complete",
+      "seconds": 0.469,
+      "passed": true
+    },
+    {
+      "case": "mixed_two_rows",
+      "status": "complete",
+      "seconds": 0.453,
+      "passed": true
+    }
+  ],
+  "run_date": "2026-10-25"
+}

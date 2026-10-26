@@ -1,0 +1,8 @@
+{"customer_id": "001", "name": "Ada Chen", "email": "ada@example.com", "signup_date": "10/01/2026", "country": "us"}
+{"customer_id": "002", "name": "Ben Ortiz", "email": "ben@example.com", "signup_date": "2026-10-02", "country": "US"}
+{"customer_id": "002", "name": "Ben Ortiz", "email": "ben@example.com", "signup_date": "2026-10-02", "country": "US"}
+{"customer_id": "003", "name": "Cara Singh", "email": "cara@example.com", "signup_date": "10/03/2026", "country": "Canada"}
+{"customer_id": "004", "name": "Dan Lee", "email": "dan@example.com", "signup_date": "2026-10-04", "country": "US"}
+{"customer_id": "005", "name": "Eli Jones", "email": "eli@example.com", "signup_date": "10/05/2026", "country": "United States"}
+{"customer_id": "006", "name": "Fin Brooks", "email": "fin@example.com", "signup_date": "2026-10-06", "country": "CA"}
+{"customer_id": "007", "name": "Gia Bell", "email": "gia@example.com", "signup_date": "10/07/2026", "country": "uk"}

@@ -1,0 +1,18 @@
+Lumen Row hero assets
+Generated with the built-in image_gen tool, October 25, 2026.
+No reference artwork was copied into the app. The Etail landing-page concept
+by Alex Bender for FANCY informed the full-scene composition and soft 3D direction:
+https://dribbble.com/shots/25571331-Etail-landing-page-web-design-3D-animation
+
+Shared prompt (followed by the appropriate variant paragraph below):
+
+Use case: stylized-concept. Asset type: immersive website hero BACKGROUND for Lumen Row, a data quality review app. Create an exquisite original miniature 3D product world, high-end Cinema4D/Octane studio render, tactile ceramic and frosted glass, soft rounded forms, physically convincing surfaces, ambient occlusion and long soft shadows. Landscape 16:9 composition. On the RIGHT 60 percent a beautiful rounded ivory ceramic data review station, a luminous translucent lilac scanning arch, and a narrow sculptural conveyor path carrying small frosted rectangular cards with abstract rows. A few incoming cards gently misaligned, outgoing cards form an orderly neat stack with one subtle green check symbol. Finite 3D objects grounded on a seamless pale sculptural floor; rounded tiles and restrained architecture. Camera elevated 25 degrees with slight isometric perspective. LEFT 42 percent is clean quiet background/empty floor with soft lighting, NO objects, for a large real HTML headline and controls. Main object large and sculptural occupying right center, not tiny. Background artwork only: absolutely NO words, NO text, NO letters, NO numbers, NO logos, NO UI or website screenshot, NO borders. Must feel editorial, premium, playful but precise; no generic sci-fi circuitry, no flat vector diagram, no wireframe portal. Rounded architecture and frosted data cards are the visual metaphor.
+
+LIGHT variant (initial independently generated scene) -> assets/lumenrow-hero-light-initial.png
+LIGHT scene. Warm ivory floor, pearl white ceramic station, translucent lavender/mauve glass, a small vivid fuchsia detail, sunlight from upper left, subtle golden-hour warmth and soft lavender shadows. Background near #f5f0eb. Very polished lighting, airy bright and sophisticated.
+
+DARK variant -> assets/lumenrow-hero-dark.png
+DARK scene. Deep midnight aubergine and navy studio background, charcoal-plum ceramic station, luminous lavender and violet glass, small vivid fuchsia details and pale mint check. Soft pools of warm light and convincing glossy reflections, cinematic three-dimensional lighting, beautiful moody ambience. Background near #12101e. Keep the LEFT 42 percent very dark, quiet and empty for white text.
+
+The installed light image now derives from the dark image to match its framing.
+See assets/light-matching-prompt.txt for the exact built-in image_gen edit prompt.

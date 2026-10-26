@@ -1,0 +1,14 @@
+{
+  "purpose": "Known answers for fictional practice records only; these are not inferred customer facts.",
+  "record_numbering": "1-based, excluding the header",
+  "expected_initial_blocking_issues": 7,
+  "expected_rule_backed_changes": 4,
+  "expected_blockers_after_rule_backed_changes": 3,
+  "manual_corrections": [
+    {"record": 3, "field": "signup_date", "value": "2026-04-30", "reason": "Known intended date for this fictional fixture"},
+    {"record": 4, "field": "customer_id", "value": "00104", "reason": "Known customer ID for this fictional fixture"},
+    {"record": 5, "field": "country", "value": "CA", "reason": "Known country for this fictional fixture"}
+  ],
+  "expected_final_blocking_issues": 0,
+  "expected_output_records": 6
+}
