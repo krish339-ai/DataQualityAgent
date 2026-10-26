@@ -1,0 +1,3171 @@
+{
+  "suite": "nebius-fresh-v1",
+  "provider": "nebius",
+  "model": "Qwen/Qwen3.5-397B-A17B",
+  "temperature": 0,
+  "started_at_utc": "2026-10-26T03:21:04.715565+00:00",
+  "application_commit": "e314c55a57b9ae3cc7567bdc3fba562837c3ac02",
+  "corpus_sha256": "7471352ffc02776aa07d3a7522d96167e490b43c17437dbd13dd256cdaa7d23e",
+  "runner_sha256": "e35ba4b2269a8651f7719ca015d40cb38a6a8a2a85d0d3a693007730c6c1cc5c",
+  "repeat_count": 1,
+  "network_request_budget": 75,
+  "fixture_type": "new fictional cases; oracle labels fixed before live calls",
+  "review": "scripted oracle review and approvals on synthetic records only",
+  "results": [
+    {
+      "id": "rules_clean",
+      "cohort": "declared_rules",
+      "detection": {
+        "expected": 0,
+        "detected": 0,
+        "missed": [],
+        "false_positives": []
+      },
+      "observed_issues": [],
+      "investigation_failed": false,
+      "investigation_error": "",
+      "rule_candidate_coverage": {
+        "expected": 0,
+        "selected_correctly": 0
+      },
+      "value_request": null,
+      "value_targets": [],
+      "value_fallback": null,
+      "delivered_suggestions": [],
+      "cell_scores": [],
+      "reviewed_outcome": {
+        "expected": "complete",
+        "passed": true,
+        "exported": true,
+        "approval_decisions": 2,
+        "source_preserved": true,
+        "exact_output_match": true,
+        "note": "Known fixture facts and both approvals were scripted by the evaluator; this is not autonomous completion."
+      },
+      "calls": [
+        {
+          "phase": "investigation",
+          "content": "",
+          "tool_calls": [
+            {
+              "name": "profile_dataset",
+              "args": {},
+              "id": "chatcmpl-tool-abe02a1046821ead",
+              "type": "tool_call"
+            },
+            {
+              "name": "lookup_rules",
+              "args": {},
+              "id": "chatcmpl-tool-b1b708145a73c266",
+              "type": "tool_call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 531,
+            "output_tokens": 136,
+            "total_tokens": 667,
+            "input_token_details": {},
+            "output_token_details": {}
+          },
+          "seconds": 1.937
+        },
+        {
+          "phase": "investigation",
+          "content": "",
+          "tool_calls": [
+            {
+              "name": "validate_dataset",
+              "args": {},
+              "id": "chatcmpl-tool-ba998e9677b2988c",
+              "type": "tool_call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 634,
+            "output_tokens": 101,
+            "total_tokens": 735,
+            "input_token_details": {},
+            "output_token_details": {}
+          },
+          "seconds": 1.344
+        },
+        {
+          "phase": "investigation",
+          "content": "",
+          "tool_calls": [
+            {
+              "name": "preview_repairs",
+              "args": {},
+              "id": "chatcmpl-tool-92e30b8a452472e0",
+              "type": "tool_call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 678,
+            "output_tokens": 51,
+            "total_tokens": 729,
+            "input_token_details": {},
+            "output_token_details": {}
+          },
+          "seconds": 1.015
+        },
+        {
+          "phase": "investigation",
+          "content": "",
+          "tool_calls": [
+            {
+              "name": "validate_dataset",
+              "args": {},
+              "id": "chatcmpl-tool-8656078f659068e1",
+              "type": "tool_call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 736,
+            "output_tokens": 116,
+            "total_tokens": 852,
+            "input_token_details": {},
+            "output_token_details": {}
+          },
+          "seconds": 1.422
+        },
+        {
+          "phase": "investigation",
+          "content": "\n\n{\"candidate_ids\":[]}",
+          "tool_calls": [],
+          "usage": {
+            "input_tokens": 780,
+            "output_tokens": 41,
+            "total_tokens": 821,
+            "input_token_details": {},
+            "output_token_details": {}
+          },
+          "seconds": 0.907
+        }
+      ],
+      "seconds": 7.61
+    },
+    {
+      "id": "rules_day_first_exception",
+      "cohort": "declared_rules",
+      "detection": {
+        "expected": 2,
+        "detected": 2,
+        "missed": [],
+        "false_positives": []
+      },
+      "observed_issues": [
+        {
+          "record": 1,
+          "field": "signup_date",
+          "kind": "date_format"
+        },
+        {
+          "record": 1,
+          "field": "country",
+          "kind": "category"
+        }
+      ],
+      "investigation_failed": false,
+      "investigation_error": "",
+      "rule_candidate_coverage": {
+        "expected": 2,
+        "selected_correctly": 2
+      },
+      "value_request": null,
+      "value_targets": [],
+      "value_fallback": null,
+      "delivered_suggestions": [],
+      "cell_scores": [],
+      "reviewed_outcome": {
+        "expected": "complete",
+        "passed": true,
+        "exported": true,
+        "approval_decisions": 2,
+        "source_preserved": true,
+        "exact_output_match": true,
+        "note": "Known fixture facts and both approvals were scripted by the evaluator; this is not autonomous completion."
+      },
+      "calls": [
+        {
+          "phase": "investigation",
+          "content": "",
+          "tool_calls": [
+            {
+              "name": "profile_dataset",
+              "args": {},
+              "id": "chatcmpl-tool-a8f2deebb1e4084f",
+              "type": "tool_call"
+            },
+            {
+              "name": "lookup_rules",
+              "args": {},
+              "id": "chatcmpl-tool-bb3682e8bde813ae",
+              "type": "tool_call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 531,
+            "output_tokens": 136,
+            "total_tokens": 667,
+            "input_token_details": {},
+            "output_token_details": {}
+          },
+          "seconds": 1.687
+        },
+        {
+          "phase": "investigation",
+          "content": "",
+          "tool_calls": [
+            {
+              "name": "validate_dataset",
+              "args": {},
+              "id": "chatcmpl-tool-9875cbdb16eaef2c",
+              "type": "tool_call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 634,
+            "output_tokens": 71,
+            "total_tokens": 705,
+            "input_token_details": {},
+            "output_token_details": {}
+          },
+          "seconds": 1.203
+        },
+        {
+          "phase": "investigation",
+          "content": "",
+          "tool_calls": [
+            {
+              "name": "preview_repairs",
+              "args": {},
+              "id": "chatcmpl-tool-a1c6a7c8f56dbd9d",
+              "type": "tool_call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 690,
+            "output_tokens": 54,
+            "total_tokens": 744,
+            "input_token_details": {},
+            "output_token_details": {}
+          },
+          "seconds": 0.985
+        },
+        {
+          "phase": "investigation",
+          "content": "",
+          "tool_calls": [
+            {
+              "name": "preview_repairs",
+              "args": {},
+              "id": "chatcmpl-tool-b7c7b79b60a95fb4",
+              "type": "tool_call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 783,
+            "output_tokens": 198,
+            "total_tokens": 981,
+            "input_token_details": {},
+            "output_token_details": {}
+          },
+          "seconds": 1.875
+        },
+        {
+          "phase": "investigation",
+          "content": "\n\n{\"candidate_ids\": [0, 1]}",
+          "tool_calls": [],
+          "usage": {
+            "input_tokens": 876,
+            "output_tokens": 210,
+            "total_tokens": 1086,
+            "input_token_details": {},
+            "output_token_details": {}
+          },
+          "seconds": 1.969
+        }
+      ],
+      "seconds": 9.11
+    },
+    {
+      "id": "rules_exact_case_alias",
+      "cohort": "declared_rules",
+      "detection": {
+        "expected": 1,
+        "detected": 1,
+        "missed": [],
+        "false_positives": []
+      },
+      "observed_issues": [
+        {
+          "record": 1,
+          "field": "country",
+          "kind": "category"
+        }
+      ],
+      "investigation_failed": false,
+      "investigation_error": "",
+      "rule_candidate_coverage": {
+        "expected": 1,
+        "selected_correctly": 1
+      },
+      "value_request": null,
+      "value_targets": [],
+      "value_fallback": null,
+      "delivered_suggestions": [],
+      "cell_scores": [],
+      "reviewed_outcome": {
+        "expected": "complete",
+        "passed": true,
+        "exported": true,
+        "approval_decisions": 2,
+        "source_preserved": true,
+        "exact_output_match": true,
+        "note": "Known fixture facts and both approvals were scripted by the evaluator; this is not autonomous completion."
+      },
+      "calls": [
+        {
+          "phase": "investigation",
+          "content": "",
+          "tool_calls": [
+            {
+              "name": "profile_dataset",
+              "args": {},
+              "id": "chatcmpl-tool-ac991fa7eea6f3fd",
+              "type": "tool_call"
+            },
+            {
+              "name": "lookup_rules",
+              "args": {},
+              "id": "chatcmpl-tool-8e0216558500fc81",
+              "type": "tool_call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 531,
+            "output_tokens": 136,
+            "total_tokens": 667,
+            "input_token_details": {},
+            "output_token_details": {}
+          },
+          "seconds": 1.719
+        },
+        {
+          "phase": "investigation",
+          "content": "",
+          "tool_calls": [
+            {
+              "name": "validate_dataset",
+              "args": {},
+              "id": "chatcmpl-tool-8877efb358c1d5d9",
+              "type": "tool_call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 634,
+            "output_tokens": 71,
+            "total_tokens": 705,
+            "input_token_details": {},
+            "output_token_details": {}
+          },
+          "seconds": 1.14
+        },
+        {
+          "phase": "investigation",
+          "content": "",
+          "tool_calls": [
+            {
+              "name": "preview_repairs",
+              "args": {},
+              "id": "chatcmpl-tool-ac112a72158e7a5f",
+              "type": "tool_call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 683,
+            "output_tokens": 52,
+            "total_tokens": 735,
+            "input_token_details": {},
+            "output_token_details": {}
+          },
+          "seconds": 0.985
+        },
+        {
+          "phase": "investigation",
+          "content": "",
+          "tool_calls": [
+            {
+              "name": "preview_repairs",
+              "args": {},
+              "id": "chatcmpl-tool-8f231438e6a630c8",
+              "type": "tool_call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 758,
+            "output_tokens": 189,
+            "total_tokens": 947,
+            "input_token_details": {},
+            "output_token_details": {}
+          },
+          "seconds": 1.922
+        },
+        {
+          "phase": "investigation",
+          "content": "\n\n{\"candidate_ids\":[0]}",
+          "tool_calls": [],
+          "usage": {
+            "input_tokens": 833,
+            "output_tokens": 135,
+            "total_tokens": 968,
+            "input_token_details": {},
+            "output_token_details": {}
+          },
+          "seconds": 1.453
+        }
+      ],
+      "seconds": 8.407
+    },
+    {
+      "id": "rules_multiple_records",
+      "cohort": "declared_rules",
+      "detection": {
+        "expected": 4,
+        "detected": 4,
+        "missed": [],
+        "false_positives": []
+      },
+      "observed_issues": [
+        {
+          "record": 1,
+          "field": "signup_date",
+          "kind": "date_format"
+        },
+        {
+          "record": 2,
+          "field": "signup_date",
+          "kind": "date_format"
+        },
+        {
+          "record": 1,
+          "field": "country",
+          "kind": "category"
+        },
+        {
+          "record": 2,
+          "field": "country",
+          "kind": "category"
+        }
+      ],
+      "investigation_failed": false,
+      "investigation_error": "",
+      "rule_candidate_coverage": {
+        "expected": 4,
+        "selected_correctly": 4
+      },
+      "value_request": null,
+      "value_targets": [],
+      "value_fallback": null,
+      "delivered_suggestions": [],
+      "cell_scores": [],
+      "reviewed_outcome": {
+        "expected": "complete",
+        "passed": true,
+        "exported": true,
+        "approval_decisions": 2,
+        "source_preserved": true,
+        "exact_output_match": true,
+        "note": "Known fixture facts and both approvals were scripted by the evaluator; this is not autonomous completion."
+      },
+      "calls": [
+        {
+          "phase": "investigation",
+          "content": "",
+          "tool_calls": [
+            {
+              "name": "profile_dataset",
+              "args": {},
+              "id": "chatcmpl-tool-9135d7f29cb0d2b0",
+              "type": "tool_call"
+            },
+            {
+              "name": "lookup_rules",
+              "args": {},
+              "id": "chatcmpl-tool-9d45f132bba53673",
+              "type": "tool_call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 531,
+            "output_tokens": 136,
+            "total_tokens": 667,
+            "input_token_details": {},
+            "output_token_details": {}
+          },
+          "seconds": 1.671
+        },
+        {
+          "phase": "investigation",
+          "content": "",
+          "tool_calls": [
+            {
+              "name": "validate_dataset",
+              "args": {},
+              "id": "chatcmpl-tool-b9048c639e7984d2",
+              "type": "tool_call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 634,
+            "output_tokens": 92,
+            "total_tokens": 726,
+            "input_token_details": {},
+            "output_token_details": {}
+          },
+          "seconds": 1.204
+        },
+        {
+          "phase": "investigation",
+          "content": "",
+          "tool_calls": [
+            {
+              "name": "preview_repairs",
+              "args": {},
+              "id": "chatcmpl-tool-a9ece11f5e230739",
+              "type": "tool_call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 690,
+            "output_tokens": 54,
+            "total_tokens": 744,
+            "input_token_details": {},
+            "output_token_details": {}
+          },
+          "seconds": 0.953
+        },
+        {
+          "phase": "investigation",
+          "content": "",
+          "tool_calls": [
+            {
+              "name": "validate_dataset",
+              "args": {},
+              "id": "chatcmpl-tool-b5d2fc97ede89564",
+              "type": "tool_call"
+            },
+            {
+              "name": "preview_repairs",
+              "args": {},
+              "id": "chatcmpl-tool-bde385c2549b7deb",
+              "type": "tool_call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 819,
+            "output_tokens": 146,
+            "total_tokens": 965,
+            "input_token_details": {},
+            "output_token_details": {}
+          },
+          "seconds": 1.312
+        },
+        {
+          "phase": "investigation",
+          "content": "\n\n{\"use_all_candidates\":true}",
+          "tool_calls": [],
+          "usage": {
+            "input_tokens": 992,
+            "output_tokens": 91,
+            "total_tokens": 1083,
+            "input_token_details": {},
+            "output_token_details": {}
+          },
+          "seconds": 1.344
+        }
+      ],
+      "seconds": 7.469
+    },
+    {
+      "id": "semantic_long_country",
+      "cohort": "semantic_repairs",
+      "detection": {
+        "expected": 1,
+        "detected": 1,
+        "missed": [],
+        "false_positives": []
+      },
+      "observed_issues": [
+        {
+          "record": 1,
+          "field": "country",
+          "kind": "category"
+        }
+      ],
+      "investigation_failed": false,
+      "investigation_error": "",
+      "rule_candidate_coverage": {
+        "expected": 0,
+        "selected_correctly": 0
+      },
+      "value_request": {
+        "issues": [
+          {
+            "issue_id": 0,
+            "field": "country",
+            "current_value": "United States of America",
+            "issue_types": [
+              "category"
+            ],
+            "rules": {
+              "required": true,
+              "unique": false,
+              "category": {
+                "aliases": {},
+                "allowed": [
+                  "US",
+                  "CA",
+                  "GB"
+                ]
+              }
+            }
+          }
+        ]
+      },
+      "value_targets": [
+        {
+          "issue_id": 0,
+          "record": 1,
+          "field": "country",
+          "current_value": "United States of America",
+          "issue_types": [
+            "category"
+          ]
+        }
+      ],
+      "value_fallback": false,
+      "delivered_suggestions": [
+        {
+          "issue_id": 0,
+          "record": 1,
+          "field": "country",
+          "current_value": "United States of America",
+          "disposition": "suggest",
+          "value": "US",
+          "rationale": "The current value 'United States of America' is the full English name for the country represented by the ISO 3166-1 alpha-2 code 'US'. Since 'US' is present in the allowed list, this suggestion proposes normalizing the value to the required code format based on standard semantic equivalence.",
+          "local_validation": "passed",
+          "message": "Unverified suggestion. Passes configured checks; this does not confirm the real-world fact."
+        }
+      ],
+      "cell_scores": [
+        {
+          "record": 1,
+          "field": "country",
+          "evidence": "answerable",
+          "gold_value": "US",
+          "raw": {
+            "disposition": "suggest",
+            "value": "US",
+            "suggested": true,
+            "incorrect": false,
+            "unnecessary_refusal": false,
+            "correct": true,
+            "hypothesis_truth_mismatch": false
+          },
+          "delivered": {
+            "disposition": "suggest",
+            "value": "US",
+            "suggested": true,
+            "incorrect": false,
+            "unnecessary_refusal": false,
+            "correct": true,
+            "hypothesis_truth_mismatch": false
+          }
+        }
+      ],
+      "reviewed_outcome": {
+        "expected": "complete",
+        "passed": true,
+        "exported": true,
+        "approval_decisions": 2,
+        "source_preserved": true,
+        "exact_output_match": true,
+        "note": "Known fixture facts and both approvals were scripted by the evaluator; this is not autonomous completion."
+      },
+      "calls": [
+        {
+          "phase": "investigation",
+          "content": "",
+          "tool_calls": [
+            {
+              "name": "profile_dataset",
+              "args": {},
+              "id": "chatcmpl-tool-b22de087c439df05",
+              "type": "tool_call"
+            },
+            {
+              "name": "lookup_rules",
+              "args": {},
+              "id": "chatcmpl-tool-bbf7d5d3f3ee785d",
+              "type": "tool_call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 531,
+            "output_tokens": 136,
+            "total_tokens": 667,
+            "input_token_details": {},
+            "output_token_details": {}
+          },
+          "seconds": 1.781
+        },
+        {
+          "phase": "investigation",
+          "content": "",
+          "tool_calls": [
+            {
+              "name": "validate_dataset",
+              "args": {},
+              "id": "chatcmpl-tool-9e05fab8c9242675",
+              "type": "tool_call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 634,
+            "output_tokens": 89,
+            "total_tokens": 723,
+            "input_token_details": {},
+            "output_token_details": {}
+          },
+          "seconds": 1.172
+        },
+        {
+          "phase": "investigation",
+          "content": "",
+          "tool_calls": [
+            {
+              "name": "preview_repairs",
+              "args": {},
+              "id": "chatcmpl-tool-b40ccbfca54cfe44",
+              "type": "tool_call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 683,
+            "output_tokens": 50,
+            "total_tokens": 733,
+            "input_token_details": {},
+            "output_token_details": {}
+          },
+          "seconds": 0.953
+        },
+        {
+          "phase": "investigation",
+          "content": "",
+          "tool_calls": [
+            {
+              "name": "profile_dataset",
+              "args": {},
+              "id": "chatcmpl-tool-b7fd51e537df6f8e",
+              "type": "tool_call"
+            },
+            {
+              "name": "lookup_rules",
+              "args": {},
+              "id": "chatcmpl-tool-95dbfa031de8a9ab",
+              "type": "tool_call"
+            },
+            {
+              "name": "validate_dataset",
+              "args": {},
+              "id": "chatcmpl-tool-a3952ef469f3e4a6",
+              "type": "tool_call"
+            },
+            {
+              "name": "preview_repairs",
+              "args": {},
+              "id": "chatcmpl-tool-becbaf41b0482b1e",
+              "type": "tool_call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 741,
+            "output_tokens": 161,
+            "total_tokens": 902,
+            "input_token_details": {},
+            "output_token_details": {}
+          },
+          "seconds": 1.594
+        },
+        {
+          "phase": "investigation",
+          "content": "\n\n{\"candidate_ids\":[]}",
+          "tool_calls": [],
+          "usage": {
+            "input_tokens": 927,
+            "output_tokens": 156,
+            "total_tokens": 1083,
+            "input_token_details": {},
+            "output_token_details": {}
+          },
+          "seconds": 1.672
+        },
+        {
+          "phase": "values",
+          "content": "\n\n{\"suggestions\":[{\"issue_id\":0,\"disposition\":\"suggest\",\"value\":\"US\",\"rationale\":\"The current value 'United States of America' is the full English name for the country represented by the ISO 3166-1 alpha-2 code 'US'. Since 'US' is present in the allowed list, this suggestion proposes normalizing the value to the required code format based on standard semantic equivalence.\"}]}",
+          "tool_calls": [],
+          "usage": {
+            "input_tokens": 355,
+            "output_tokens": 1817,
+            "total_tokens": 2172,
+            "input_token_details": {},
+            "output_token_details": {}
+          },
+          "seconds": 11.594
+        }
+      ],
+      "seconds": 20.375
+    },
+    {
+      "id": "semantic_britain",
+      "cohort": "semantic_repairs",
+      "detection": {
+        "expected": 1,
+        "detected": 1,
+        "missed": [],
+        "false_positives": []
+      },
+      "observed_issues": [
+        {
+          "record": 1,
+          "field": "country",
+          "kind": "category"
+        }
+      ],
+      "investigation_failed": false,
+      "investigation_error": "",
+      "rule_candidate_coverage": {
+        "expected": 0,
+        "selected_correctly": 0
+      },
+      "value_request": {
+        "issues": [
+          {
+            "issue_id": 0,
+            "field": "country",
+            "current_value": "Great Britain",
+            "issue_types": [
+              "category"
+            ],
+            "rules": {
+              "required": true,
+              "unique": false,
+              "category": {
+                "aliases": {},
+                "allowed": [
+                  "US",
+                  "CA",
+                  "GB"
+                ]
+              }
+            }
+          }
+        ]
+      },
+      "value_targets": [
+        {
+          "issue_id": 0,
+          "record": 1,
+          "field": "country",
+          "current_value": "Great Britain",
+          "issue_types": [
+            "category"
+          ]
+        }
+      ],
+      "value_fallback": false,
+      "delivered_suggestions": [
+        {
+          "issue_id": 0,
+          "record": 1,
+          "field": "country",
+          "current_value": "Great Britain",
+          "disposition": "suggest",
+          "value": "GB",
+          "rationale": "The value 'Great Britain' is not in the allowed list ['US', 'CA', 'GB']. 'GB' is the ISO 3166-1 alpha-2 country code for the United Kingdom. While Great Britain technically refers to the island, it is frequently used synonymously with the United Kingdom in data contexts. This suggestion assumes the record intends to reference the country represented by the code 'GB' within the allowed schema. This is a semantic normalization based on common country name-to-code mapping, but should be verified against the original source intent.",
+          "local_validation": "passed",
+          "message": "Unverified suggestion. Passes configured checks; this does not confirm the real-world fact."
+        }
+      ],
+      "cell_scores": [
+        {
+          "record": 1,
+          "field": "country",
+          "evidence": "answerable",
+          "gold_value": "GB",
+          "raw": {
+            "disposition": "suggest",
+            "value": "GB",
+            "suggested": true,
+            "incorrect": false,
+            "unnecessary_refusal": false,
+            "correct": true,
+            "hypothesis_truth_mismatch": false
+          },
+          "delivered": {
+            "disposition": "suggest",
+            "value": "GB",
+            "suggested": true,
+            "incorrect": false,
+            "unnecessary_refusal": false,
+            "correct": true,
+            "hypothesis_truth_mismatch": false
+          }
+        }
+      ],
+      "reviewed_outcome": {
+        "expected": "complete",
+        "passed": true,
+        "exported": true,
+        "approval_decisions": 2,
+        "source_preserved": true,
+        "exact_output_match": true,
+        "note": "Known fixture facts and both approvals were scripted by the evaluator; this is not autonomous completion."
+      },
+      "calls": [
+        {
+          "phase": "investigation",
+          "content": "",
+          "tool_calls": [
+            {
+              "name": "profile_dataset",
+              "args": {},
+              "id": "chatcmpl-tool-ad146ef39151174f",
+              "type": "tool_call"
+            },
+            {
+              "name": "lookup_rules",
+              "args": {},
+              "id": "chatcmpl-tool-975e504a958eca7f",
+              "type": "tool_call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 531,
+            "output_tokens": 136,
+            "total_tokens": 667,
+            "input_token_details": {},
+            "output_token_details": {}
+          },
+          "seconds": 1.703
+        },
+        {
+          "phase": "investigation",
+          "content": "",
+          "tool_calls": [
+            {
+              "name": "validate_dataset",
+              "args": {},
+              "id": "chatcmpl-tool-bf432f846d2105db",
+              "type": "tool_call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 634,
+            "output_tokens": 89,
+            "total_tokens": 723,
+            "input_token_details": {},
+            "output_token_details": {}
+          },
+          "seconds": 1.25
+        },
+        {
+          "phase": "investigation",
+          "content": "",
+          "tool_calls": [
+            {
+              "name": "preview_repairs",
+              "args": {},
+              "id": "chatcmpl-tool-8f687c018e3e5508",
+              "type": "tool_call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 683,
+            "output_tokens": 50,
+            "total_tokens": 733,
+            "input_token_details": {},
+            "output_token_details": {}
+          },
+          "seconds": 0.953
+        },
+        {
+          "phase": "investigation",
+          "content": "",
+          "tool_calls": [
+            {
+              "name": "profile_dataset",
+              "args": {},
+              "id": "chatcmpl-tool-b9090d0841c983b0",
+              "type": "tool_call"
+            },
+            {
+              "name": "lookup_rules",
+              "args": {},
+              "id": "chatcmpl-tool-9874ae9e5d6c95c0",
+              "type": "tool_call"
+            },
+            {
+              "name": "validate_dataset",
+              "args": {},
+              "id": "chatcmpl-tool-9c92dc81f6fb8d30",
+              "type": "tool_call"
+            },
+            {
+              "name": "preview_repairs",
+              "args": {},
+              "id": "chatcmpl-tool-a23cf168d3a09e0c",
+              "type": "tool_call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 741,
+            "output_tokens": 161,
+            "total_tokens": 902,
+            "input_token_details": {},
+            "output_token_details": {}
+          },
+          "seconds": 1.407
+        },
+        {
+          "phase": "investigation",
+          "content": "\n\n{\"candidate_ids\":[]}",
+          "tool_calls": [],
+          "usage": {
+            "input_tokens": 927,
+            "output_tokens": 156,
+            "total_tokens": 1083,
+            "input_token_details": {},
+            "output_token_details": {}
+          },
+          "seconds": 1.609
+        },
+        {
+          "phase": "values",
+          "content": "\n\n{\n  \"suggestions\": [\n    {\n      \"issue_id\": 0,\n      \"disposition\": \"suggest\",\n      \"value\": \"GB\",\n      \"rationale\": \"The value 'Great Britain' is not in the allowed list ['US', 'CA', 'GB']. 'GB' is the ISO 3166-1 alpha-2 country code for the United Kingdom. While Great Britain technically refers to the island, it is frequently used synonymously with the United Kingdom in data contexts. This suggestion assumes the record intends to reference the country represented by the code 'GB' within the allowed schema. This is a semantic normalization based on common country name-to-code mapping, but should be verified against the original source intent.\"\n    }\n  ]\n}",
+          "tool_calls": [],
+          "usage": {
+            "input_tokens": 353,
+            "output_tokens": 1453,
+            "total_tokens": 1806,
+            "input_token_details": {},
+            "output_token_details": {}
+          },
+          "seconds": 9.406
+        }
+      ],
+      "seconds": 17.813
+    },
+    {
+      "id": "semantic_multi_item",
+      "cohort": "semantic_repairs",
+      "detection": {
+        "expected": 3,
+        "detected": 3,
+        "missed": [],
+        "false_positives": []
+      },
+      "observed_issues": [
+        {
+          "record": 1,
+          "field": "country",
+          "kind": "category"
+        },
+        {
+          "record": 2,
+          "field": "country",
+          "kind": "category"
+        },
+        {
+          "record": 3,
+          "field": "country",
+          "kind": "category"
+        }
+      ],
+      "investigation_failed": false,
+      "investigation_error": "",
+      "rule_candidate_coverage": {
+        "expected": 0,
+        "selected_correctly": 0
+      },
+      "value_request": {
+        "issues": [
+          {
+            "issue_id": 0,
+            "field": "country",
+            "current_value": "Canadian",
+            "issue_types": [
+              "category"
+            ],
+            "rules": {
+              "required": true,
+              "unique": false,
+              "category": {
+                "aliases": {},
+                "allowed": [
+                  "US",
+                  "CA",
+                  "GB"
+                ]
+              }
+            }
+          },
+          {
+            "issue_id": 1,
+            "field": "country",
+            "current_value": "Britain",
+            "issue_types": [
+              "category"
+            ],
+            "rules": {
+              "required": true,
+              "unique": false,
+              "category": {
+                "aliases": {},
+                "allowed": [
+                  "US",
+                  "CA",
+                  "GB"
+                ]
+              }
+            }
+          },
+          {
+            "issue_id": 2,
+            "field": "country",
+            "current_value": "United States",
+            "issue_types": [
+              "category"
+            ],
+            "rules": {
+              "required": true,
+              "unique": false,
+              "category": {
+                "aliases": {},
+                "allowed": [
+                  "US",
+                  "CA",
+                  "GB"
+                ]
+              }
+            }
+          }
+        ]
+      },
+      "value_targets": [
+        {
+          "issue_id": 0,
+          "record": 1,
+          "field": "country",
+          "current_value": "Canadian",
+          "issue_types": [
+            "category"
+          ]
+        },
+        {
+          "issue_id": 1,
+          "record": 2,
+          "field": "country",
+          "current_value": "Britain",
+          "issue_types": [
+            "category"
+          ]
+        },
+        {
+          "issue_id": 2,
+          "record": 3,
+          "field": "country",
+          "current_value": "United States",
+          "issue_types": [
+            "category"
+          ]
+        }
+      ],
+      "value_fallback": false,
+      "delivered_suggestions": [
+        {
+          "issue_id": 0,
+          "record": 1,
+          "field": "country",
+          "current_value": "Canadian",
+          "disposition": "suggest",
+          "value": "CA",
+          "rationale": "The text 'Canadian' implies Canada. The allowed list contains 'CA', the ISO code for Canada. This suggests a semantic mapping from demonym to ISO code, assuming the field requires standard country codes.",
+          "local_validation": "passed",
+          "message": "Unverified suggestion. Passes configured checks; this does not confirm the real-world fact."
+        },
+        {
+          "issue_id": 1,
+          "record": 2,
+          "field": "country",
+          "current_value": "Britain",
+          "disposition": "suggest",
+          "value": "GB",
+          "rationale": "The text 'Britain' implies United Kingdom. The allowed list contains 'GB', the ISO code for United Kingdom. This suggests a semantic mapping from common name to ISO code, assuming the field requires standard country codes.",
+          "local_validation": "passed",
+          "message": "Unverified suggestion. Passes configured checks; this does not confirm the real-world fact."
+        },
+        {
+          "issue_id": 2,
+          "record": 3,
+          "field": "country",
+          "current_value": "United States",
+          "disposition": "suggest",
+          "value": "US",
+          "rationale": "The text 'United States' implies USA. The allowed list contains 'US', the ISO code for USA. This suggests a semantic mapping from full name to ISO code, assuming the field requires standard country codes.",
+          "local_validation": "passed",
+          "message": "Unverified suggestion. Passes configured checks; this does not confirm the real-world fact."
+        }
+      ],
+      "cell_scores": [
+        {
+          "record": 1,
+          "field": "country",
+          "evidence": "answerable",
+          "gold_value": "CA",
+          "raw": {
+            "disposition": "suggest",
+            "value": "CA",
+            "suggested": true,
+            "incorrect": false,
+            "unnecessary_refusal": false,
+            "correct": true,
+            "hypothesis_truth_mismatch": false
+          },
+          "delivered": {
+            "disposition": "suggest",
+            "value": "CA",
+            "suggested": true,
+            "incorrect": false,
+            "unnecessary_refusal": false,
+            "correct": true,
+            "hypothesis_truth_mismatch": false
+          }
+        },
+        {
+          "record": 2,
+          "field": "country",
+          "evidence": "answerable",
+          "gold_value": "GB",
+          "raw": {
+            "disposition": "suggest",
+            "value": "GB",
+            "suggested": true,
+            "incorrect": false,
+            "unnecessary_refusal": false,
+            "correct": true,
+            "hypothesis_truth_mismatch": false
+          },
+          "delivered": {
+            "disposition": "suggest",
+            "value": "GB",
+            "suggested": true,
+            "incorrect": false,
+            "unnecessary_refusal": false,
+            "correct": true,
+            "hypothesis_truth_mismatch": false
+          }
+        },
+        {
+          "record": 3,
+          "field": "country",
+          "evidence": "answerable",
+          "gold_value": "US",
+          "raw": {
+            "disposition": "suggest",
+            "value": "US",
+            "suggested": true,
+            "incorrect": false,
+            "unnecessary_refusal": false,
+            "correct": true,
+            "hypothesis_truth_mismatch": false
+          },
+          "delivered": {
+            "disposition": "suggest",
+            "value": "US",
+            "suggested": true,
+            "incorrect": false,
+            "unnecessary_refusal": false,
+            "correct": true,
+            "hypothesis_truth_mismatch": false
+          }
+        }
+      ],
+      "reviewed_outcome": {
+        "expected": "complete",
+        "passed": true,
+        "exported": true,
+        "approval_decisions": 2,
+        "source_preserved": true,
+        "exact_output_match": true,
+        "note": "Known fixture facts and both approvals were scripted by the evaluator; this is not autonomous completion."
+      },
+      "calls": [
+        {
+          "phase": "investigation",
+          "content": "",
+          "tool_calls": [
+            {
+              "name": "profile_dataset",
+              "args": {},
+              "id": "chatcmpl-tool-8685dd8317f6cdd9",
+              "type": "tool_call"
+            },
+            {
+              "name": "lookup_rules",
+              "args": {},
+              "id": "chatcmpl-tool-9c1b637203ca4b69",
+              "type": "tool_call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 531,
+            "output_tokens": 136,
+            "total_tokens": 667,
+            "input_token_details": {},
+            "output_token_details": {}
+          },
+          "seconds": 1.469
+        },
+        {
+          "phase": "investigation",
+          "content": "",
+          "tool_calls": [
+            {
+              "name": "validate_dataset",
+              "args": {},
+              "id": "chatcmpl-tool-96a09eaa6271d1fd",
+              "type": "tool_call"
+            },
+            {
+              "name": "preview_repairs",
+              "args": {},
+              "id": "chatcmpl-tool-945f5797e7fbef5a",
+              "type": "tool_call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 634,
+            "output_tokens": 110,
+            "total_tokens": 744,
+            "input_token_details": {},
+            "output_token_details": {}
+          },
+          "seconds": 1.359
+        },
+        {
+          "phase": "investigation",
+          "content": "\n\nBased on my investigation:\n\n**Dataset Profile:**\n- 3 rows, 5 columns\n- 3 blocking issues\n\n**Rules Configured:**\n- 5 required field rules\n- 1 unique field rule\n- 1 date rule\n- 1 category rule\n\n**Validation Results:**\n- 3 blocking issues, all related to category rule violations\n\n**Repair Candidates:**\n- 0 deterministic, rule-backed repair candidates available\n\nThere are no deterministic repair candidates to present to the user. The 3 blocking category issues cannot be automatically resolved through the available rule-backed repair system. These will require manual intervention or user clarification through the external workflow.\n\nSince there are no candidates to select, no JSON selection is applicable.",
+          "tool_calls": [],
+          "usage": {
+            "input_tokens": 729,
+            "output_tokens": 276,
+            "total_tokens": 1005,
+            "input_token_details": {},
+            "output_token_details": {}
+          },
+          "seconds": 2.297
+        },
+        {
+          "phase": "investigation",
+          "content": "\n\n{\"candidate_ids\":[]}",
+          "tool_calls": [],
+          "usage": {
+            "input_tokens": 893,
+            "output_tokens": 171,
+            "total_tokens": 1064,
+            "input_token_details": {},
+            "output_token_details": {}
+          },
+          "seconds": 1.672
+        },
+        {
+          "phase": "values",
+          "content": "\n\n{\n  \"suggestions\": [\n    {\n      \"issue_id\": 0,\n      \"disposition\": \"suggest\",\n      \"value\": \"CA\",\n      \"rationale\": \"The text 'Canadian' implies Canada. The allowed list contains 'CA', the ISO code for Canada. This suggests a semantic mapping from demonym to ISO code, assuming the field requires standard country codes.\"\n    },\n    {\n      \"issue_id\": 1,\n      \"disposition\": \"suggest\",\n      \"value\": \"GB\",\n      \"rationale\": \"The text 'Britain' implies United Kingdom. The allowed list contains 'GB', the ISO code for United Kingdom. This suggests a semantic mapping from common name to ISO code, assuming the field requires standard country codes.\"\n    },\n    {\n      \"issue_id\": 2,\n      \"disposition\": \"suggest\",\n      \"value\": \"US\",\n      \"rationale\": \"The text 'United States' implies USA. The allowed list contains 'US', the ISO code for USA. This suggests a semantic mapping from full name to ISO code, assuming the field requires standard country codes.\"\n    }\n  ]\n}",
+          "tool_calls": [],
+          "usage": {
+            "input_tokens": 443,
+            "output_tokens": 3794,
+            "total_tokens": 4237,
+            "input_token_details": {},
+            "output_token_details": {}
+          },
+          "seconds": 23.547
+        }
+      ],
+      "seconds": 31.813
+    },
+    {
+      "id": "semantic_abbreviations",
+      "cohort": "semantic_repairs",
+      "detection": {
+        "expected": 2,
+        "detected": 2,
+        "missed": [],
+        "false_positives": []
+      },
+      "observed_issues": [
+        {
+          "record": 1,
+          "field": "country",
+          "kind": "category"
+        },
+        {
+          "record": 2,
+          "field": "country",
+          "kind": "category"
+        }
+      ],
+      "investigation_failed": false,
+      "investigation_error": "",
+      "rule_candidate_coverage": {
+        "expected": 0,
+        "selected_correctly": 0
+      },
+      "value_request": {
+        "issues": [
+          {
+            "issue_id": 0,
+            "field": "country",
+            "current_value": "U.S.",
+            "issue_types": [
+              "category"
+            ],
+            "rules": {
+              "required": true,
+              "unique": false,
+              "category": {
+                "aliases": {},
+                "allowed": [
+                  "US",
+                  "CA",
+                  "GB"
+                ]
+              }
+            }
+          },
+          {
+            "issue_id": 1,
+            "field": "country",
+            "current_value": "CAN",
+            "issue_types": [
+              "category"
+            ],
+            "rules": {
+              "required": true,
+              "unique": false,
+              "category": {
+                "aliases": {},
+                "allowed": [
+                  "US",
+                  "CA",
+                  "GB"
+                ]
+              }
+            }
+          }
+        ]
+      },
+      "value_targets": [
+        {
+          "issue_id": 0,
+          "record": 1,
+          "field": "country",
+          "current_value": "U.S.",
+          "issue_types": [
+            "category"
+          ]
+        },
+        {
+          "issue_id": 1,
+          "record": 2,
+          "field": "country",
+          "current_value": "CAN",
+          "issue_types": [
+            "category"
+          ]
+        }
+      ],
+      "value_fallback": false,
+      "delivered_suggestions": [
+        {
+          "issue_id": 0,
+          "record": 1,
+          "field": "country",
+          "current_value": "U.S.",
+          "disposition": "suggest",
+          "value": "US",
+          "rationale": "U.S. is a standard abbreviation for United States. The allowed list includes 'US'. This suggestion assumes a semantic mapping from the textual abbreviation to the required code format.",
+          "local_validation": "passed",
+          "message": "Unverified suggestion. Passes configured checks; this does not confirm the real-world fact."
+        },
+        {
+          "issue_id": 1,
+          "record": 2,
+          "field": "country",
+          "current_value": "CAN",
+          "disposition": "suggest",
+          "value": "CA",
+          "rationale": "CAN is the ISO alpha-3 country code for Canada. The allowed list uses ISO alpha-2 codes (US, CA, GB). This suggestion assumes normalization to the corresponding alpha-2 code 'CA'.",
+          "local_validation": "passed",
+          "message": "Unverified suggestion. Passes configured checks; this does not confirm the real-world fact."
+        }
+      ],
+      "cell_scores": [
+        {
+          "record": 1,
+          "field": "country",
+          "evidence": "answerable",
+          "gold_value": "US",
+          "raw": {
+            "disposition": "suggest",
+            "value": "US",
+            "suggested": true,
+            "incorrect": false,
+            "unnecessary_refusal": false,
+            "correct": true,
+            "hypothesis_truth_mismatch": false
+          },
+          "delivered": {
+            "disposition": "suggest",
+            "value": "US",
+            "suggested": true,
+            "incorrect": false,
+            "unnecessary_refusal": false,
+            "correct": true,
+            "hypothesis_truth_mismatch": false
+          }
+        },
+        {
+          "record": 2,
+          "field": "country",
+          "evidence": "answerable",
+          "gold_value": "CA",
+          "raw": {
+            "disposition": "suggest",
+            "value": "CA",
+            "suggested": true,
+            "incorrect": false,
+            "unnecessary_refusal": false,
+            "correct": true,
+            "hypothesis_truth_mismatch": false
+          },
+          "delivered": {
+            "disposition": "suggest",
+            "value": "CA",
+            "suggested": true,
+            "incorrect": false,
+            "unnecessary_refusal": false,
+            "correct": true,
+            "hypothesis_truth_mismatch": false
+          }
+        }
+      ],
+      "reviewed_outcome": {
+        "expected": "complete",
+        "passed": true,
+        "exported": true,
+        "approval_decisions": 2,
+        "source_preserved": true,
+        "exact_output_match": true,
+        "note": "Known fixture facts and both approvals were scripted by the evaluator; this is not autonomous completion."
+      },
+      "calls": [
+        {
+          "phase": "investigation",
+          "content": "",
+          "tool_calls": [
+            {
+              "name": "profile_dataset",
+              "args": {},
+              "id": "chatcmpl-tool-994beddc14d67af9",
+              "type": "tool_call"
+            },
+            {
+              "name": "lookup_rules",
+              "args": {},
+              "id": "chatcmpl-tool-b2653d53eda2389e",
+              "type": "tool_call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 531,
+            "output_tokens": 136,
+            "total_tokens": 667,
+            "input_token_details": {},
+            "output_token_details": {}
+          },
+          "seconds": 1.719
+        },
+        {
+          "phase": "investigation",
+          "content": "",
+          "tool_calls": [
+            {
+              "name": "validate_dataset",
+              "args": {},
+              "id": "chatcmpl-tool-bf613523ac166ab5",
+              "type": "tool_call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 634,
+            "output_tokens": 76,
+            "total_tokens": 710,
+            "input_token_details": {},
+            "output_token_details": {}
+          },
+          "seconds": 1.125
+        },
+        {
+          "phase": "investigation",
+          "content": "",
+          "tool_calls": [
+            {
+              "name": "preview_repairs",
+              "args": {},
+              "id": "chatcmpl-tool-a729bbb4542ee590",
+              "type": "tool_call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 683,
+            "output_tokens": 43,
+            "total_tokens": 726,
+            "input_token_details": {},
+            "output_token_details": {}
+          },
+          "seconds": 0.922
+        },
+        {
+          "phase": "investigation",
+          "content": "",
+          "tool_calls": [
+            {
+              "name": "validate_dataset",
+              "args": {},
+              "id": "chatcmpl-tool-a2cffcce67074089",
+              "type": "tool_call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 741,
+            "output_tokens": 216,
+            "total_tokens": 957,
+            "input_token_details": {},
+            "output_token_details": {}
+          },
+          "seconds": 1.953
+        },
+        {
+          "phase": "investigation",
+          "content": "\n\n{\"candidate_ids\":[]}",
+          "tool_calls": [],
+          "usage": {
+            "input_tokens": 790,
+            "output_tokens": 106,
+            "total_tokens": 896,
+            "input_token_details": {},
+            "output_token_details": {}
+          },
+          "seconds": 1.328
+        },
+        {
+          "phase": "values",
+          "content": "\n\n{\n  \"suggestions\": [\n    {\n      \"issue_id\": 0,\n      \"disposition\": \"suggest\",\n      \"value\": \"US\",\n      \"rationale\": \"U.S. is a standard abbreviation for United States. The allowed list includes 'US'. This suggestion assumes a semantic mapping from the textual abbreviation to the required code format.\"\n    },\n    {\n      \"issue_id\": 1,\n      \"disposition\": \"suggest\",\n      \"value\": \"CA\",\n      \"rationale\": \"CAN is the ISO alpha-3 country code for Canada. The allowed list uses ISO alpha-2 codes (US, CA, GB). This suggestion assumes normalization to the corresponding alpha-2 code 'CA'.\"\n    }\n  ]\n}",
+          "tool_calls": [],
+          "usage": {
+            "input_tokens": 398,
+            "output_tokens": 2491,
+            "total_tokens": 2889,
+            "input_token_details": {},
+            "output_token_details": {}
+          },
+          "seconds": 15.625
+        }
+      ],
+      "seconds": 24.312
+    },
+    {
+      "id": "knowledge_unknown_and_id",
+      "cohort": "exception_knowledge",
+      "detection": {
+        "expected": 2,
+        "detected": 2,
+        "missed": [],
+        "false_positives": []
+      },
+      "observed_issues": [
+        {
+          "record": 1,
+          "field": "customer_id",
+          "kind": "missing_required"
+        },
+        {
+          "record": 1,
+          "field": "country",
+          "kind": "category"
+        }
+      ],
+      "investigation_failed": false,
+      "investigation_error": "",
+      "rule_candidate_coverage": {
+        "expected": 0,
+        "selected_correctly": 0
+      },
+      "value_request": {
+        "issues": [
+          {
+            "issue_id": 0,
+            "field": "country",
+            "current_value": "TBD",
+            "issue_types": [
+              "category"
+            ],
+            "rules": {
+              "required": true,
+              "unique": false,
+              "category": {
+                "aliases": {},
+                "allowed": [
+                  "US",
+                  "CA",
+                  "GB"
+                ]
+              }
+            }
+          },
+          {
+            "issue_id": 1,
+            "field": "customer_id",
+            "current_value": "",
+            "issue_types": [
+              "missing_required"
+            ],
+            "rules": {
+              "required": true,
+              "unique": true
+            }
+          }
+        ]
+      },
+      "value_targets": [
+        {
+          "issue_id": 0,
+          "record": 1,
+          "field": "country",
+          "current_value": "TBD",
+          "issue_types": [
+            "category"
+          ]
+        },
+        {
+          "issue_id": 1,
+          "record": 1,
+          "field": "customer_id",
+          "current_value": "",
+          "issue_types": [
+            "missing_required"
+          ]
+        }
+      ],
+      "value_fallback": false,
+      "delivered_suggestions": [
+        {
+          "issue_id": 0,
+          "record": 1,
+          "field": "country",
+          "current_value": "TBD",
+          "disposition": "abstain",
+          "value": null,
+          "rationale": "The value 'TBD' is an unknown category marker similar to N/A or unknown. The allowed category list ['US', 'CA', 'GB'] does not provide evidence to select the correct country. Correction requires external information not present in the supplied data.",
+          "local_validation": "not_applicable",
+          "message": "Needs your input."
+        },
+        {
+          "issue_id": 1,
+          "record": 1,
+          "field": "customer_id",
+          "current_value": "",
+          "disposition": "abstain",
+          "value": null,
+          "rationale": "The field is required but empty. Generating a unique customer_id would require inventing a fact or unique identifier, which is prohibited. The correct value must be retrieved from the source system or provided by the user.",
+          "local_validation": "not_applicable",
+          "message": "Needs your input."
+        }
+      ],
+      "cell_scores": [
+        {
+          "record": 1,
+          "field": "country",
+          "evidence": "must_abstain",
+          "gold_value": "CA",
+          "raw": {
+            "disposition": "abstain",
+            "value": null,
+            "suggested": false,
+            "incorrect": false,
+            "unnecessary_refusal": false,
+            "correct": false,
+            "hypothesis_truth_mismatch": false
+          },
+          "delivered": {
+            "disposition": "abstain",
+            "value": null,
+            "suggested": false,
+            "incorrect": false,
+            "unnecessary_refusal": false,
+            "correct": false,
+            "hypothesis_truth_mismatch": false
+          }
+        },
+        {
+          "record": 1,
+          "field": "customer_id",
+          "evidence": "must_abstain",
+          "gold_value": "00800",
+          "raw": {
+            "disposition": "abstain",
+            "value": null,
+            "suggested": false,
+            "incorrect": false,
+            "unnecessary_refusal": false,
+            "correct": false,
+            "hypothesis_truth_mismatch": false
+          },
+          "delivered": {
+            "disposition": "abstain",
+            "value": null,
+            "suggested": false,
+            "incorrect": false,
+            "unnecessary_refusal": false,
+            "correct": false,
+            "hypothesis_truth_mismatch": false
+          }
+        }
+      ],
+      "reviewed_outcome": {
+        "expected": "complete",
+        "passed": true,
+        "exported": true,
+        "approval_decisions": 2,
+        "source_preserved": true,
+        "exact_output_match": true,
+        "note": "Known fixture facts and both approvals were scripted by the evaluator; this is not autonomous completion."
+      },
+      "calls": [
+        {
+          "phase": "investigation",
+          "content": "",
+          "tool_calls": [
+            {
+              "name": "profile_dataset",
+              "args": {},
+              "id": "chatcmpl-tool-888d7fa60dd14c63",
+              "type": "tool_call"
+            },
+            {
+              "name": "lookup_rules",
+              "args": {},
+              "id": "chatcmpl-tool-a9b7e726316a6d2d",
+              "type": "tool_call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 531,
+            "output_tokens": 136,
+            "total_tokens": 667,
+            "input_token_details": {},
+            "output_token_details": {}
+          },
+          "seconds": 1.75
+        },
+        {
+          "phase": "investigation",
+          "content": "",
+          "tool_calls": [
+            {
+              "name": "validate_dataset",
+              "args": {},
+              "id": "chatcmpl-tool-bf7f986a7b3d449b",
+              "type": "tool_call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 634,
+            "output_tokens": 71,
+            "total_tokens": 705,
+            "input_token_details": {},
+            "output_token_details": {}
+          },
+          "seconds": 0.828
+        },
+        {
+          "phase": "investigation",
+          "content": "",
+          "tool_calls": [
+            {
+              "name": "preview_repairs",
+              "args": {},
+              "id": "chatcmpl-tool-9cfdd8dab399a1f0",
+              "type": "tool_call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 690,
+            "output_tokens": 54,
+            "total_tokens": 744,
+            "input_token_details": {},
+            "output_token_details": {}
+          },
+          "seconds": 0.953
+        },
+        {
+          "phase": "investigation",
+          "content": "",
+          "tool_calls": [
+            {
+              "name": "profile_dataset",
+              "args": {},
+              "id": "chatcmpl-tool-b6966d19d84a904a",
+              "type": "tool_call"
+            },
+            {
+              "name": "lookup_rules",
+              "args": {},
+              "id": "chatcmpl-tool-b0eee84b8da6f0eb",
+              "type": "tool_call"
+            },
+            {
+              "name": "validate_dataset",
+              "args": {},
+              "id": "chatcmpl-tool-a6657c855d3b02ba",
+              "type": "tool_call"
+            },
+            {
+              "name": "preview_repairs",
+              "args": {},
+              "id": "chatcmpl-tool-ae579e4e2a7dbe2b",
+              "type": "tool_call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 748,
+            "output_tokens": 238,
+            "total_tokens": 986,
+            "input_token_details": {},
+            "output_token_details": {}
+          },
+          "seconds": 2.078
+        },
+        {
+          "phase": "investigation",
+          "content": "\n\n{\"candidate_ids\":[]}",
+          "tool_calls": [],
+          "usage": {
+            "input_tokens": 941,
+            "output_tokens": 242,
+            "total_tokens": 1183,
+            "input_token_details": {},
+            "output_token_details": {}
+          },
+          "seconds": 2.125
+        },
+        {
+          "phase": "values",
+          "content": "\n\n{\n  \"suggestions\": [\n    {\n      \"issue_id\": 0,\n      \"disposition\": \"abstain\",\n      \"value\": null,\n      \"rationale\": \"The value 'TBD' is an unknown category marker similar to N/A or unknown. The allowed category list ['US', 'CA', 'GB'] does not provide evidence to select the correct country. Correction requires external information not present in the supplied data.\"\n    },\n    {\n      \"issue_id\": 1,\n      \"disposition\": \"abstain\",\n      \"value\": null,\n      \"rationale\": \"The field is required but empty. Generating a unique customer_id would require inventing a fact or unique identifier, which is prohibited. The correct value must be retrieved from the source system or provided by the user.\"\n    }\n  ]\n}",
+          "tool_calls": [],
+          "usage": {
+            "input_tokens": 383,
+            "output_tokens": 1857,
+            "total_tokens": 2240,
+            "input_token_details": {},
+            "output_token_details": {}
+          },
+          "seconds": 11.843
+        }
+      ],
+      "seconds": 20.984
+    },
+    {
+      "id": "knowledge_nonleap_date",
+      "cohort": "exception_knowledge",
+      "detection": {
+        "expected": 1,
+        "detected": 1,
+        "missed": [],
+        "false_positives": []
+      },
+      "observed_issues": [
+        {
+          "record": 1,
+          "field": "signup_date",
+          "kind": "date_format"
+        }
+      ],
+      "investigation_failed": false,
+      "investigation_error": "",
+      "rule_candidate_coverage": {
+        "expected": 0,
+        "selected_correctly": 0
+      },
+      "value_request": {
+        "issues": [
+          {
+            "issue_id": 0,
+            "field": "signup_date",
+            "current_value": "02/29/2027",
+            "issue_types": [
+              "date_format"
+            ],
+            "rules": {
+              "required": true,
+              "unique": false,
+              "date_format": {
+                "input": "%m/%d/%Y",
+                "output": "%Y-%m-%d"
+              }
+            }
+          }
+        ]
+      },
+      "value_targets": [
+        {
+          "issue_id": 0,
+          "record": 1,
+          "field": "signup_date",
+          "current_value": "02/29/2027",
+          "issue_types": [
+            "date_format"
+          ]
+        }
+      ],
+      "value_fallback": false,
+      "delivered_suggestions": [
+        {
+          "issue_id": 0,
+          "record": 1,
+          "field": "signup_date",
+          "current_value": "02/29/2027",
+          "disposition": "suggest",
+          "value": "2027-02-28",
+          "rationale": "2027 is not a leap year, making 02/29/2027 an impossible date. This suggestion applies the required format transformation (%Y-%m-%d) and corrects the day to 28, the last valid day of February 2027. This assumes the year and month are correct and the day was the error. If the leap day (29th) is essential, the year may be incorrect (e.g., 2024 or 2028). Please confirm the intended date.",
+          "local_validation": "passed",
+          "message": "Unverified suggestion. Passes configured checks; this does not confirm the real-world fact."
+        }
+      ],
+      "cell_scores": [
+        {
+          "record": 1,
+          "field": "signup_date",
+          "evidence": "ambiguous_hypothesis",
+          "gold_value": "2027-03-01",
+          "raw": {
+            "disposition": "suggest",
+            "value": "2027-02-28",
+            "suggested": true,
+            "incorrect": false,
+            "unnecessary_refusal": false,
+            "correct": false,
+            "hypothesis_truth_mismatch": true
+          },
+          "delivered": {
+            "disposition": "suggest",
+            "value": "2027-02-28",
+            "suggested": true,
+            "incorrect": false,
+            "unnecessary_refusal": false,
+            "correct": false,
+            "hypothesis_truth_mismatch": true
+          }
+        }
+      ],
+      "reviewed_outcome": {
+        "expected": "complete",
+        "passed": true,
+        "exported": true,
+        "approval_decisions": 2,
+        "source_preserved": true,
+        "exact_output_match": true,
+        "note": "Known fixture facts and both approvals were scripted by the evaluator; this is not autonomous completion."
+      },
+      "calls": [
+        {
+          "phase": "investigation",
+          "content": "",
+          "tool_calls": [
+            {
+              "name": "profile_dataset",
+              "args": {},
+              "id": "chatcmpl-tool-8607ae6d6f659283",
+              "type": "tool_call"
+            },
+            {
+              "name": "lookup_rules",
+              "args": {},
+              "id": "chatcmpl-tool-bf71aae9ebed6020",
+              "type": "tool_call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 531,
+            "output_tokens": 136,
+            "total_tokens": 667,
+            "input_token_details": {},
+            "output_token_details": {}
+          },
+          "seconds": 1.781
+        },
+        {
+          "phase": "investigation",
+          "content": "",
+          "tool_calls": [
+            {
+              "name": "validate_dataset",
+              "args": {},
+              "id": "chatcmpl-tool-bc37a62433c51b2d",
+              "type": "tool_call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 634,
+            "output_tokens": 89,
+            "total_tokens": 723,
+            "input_token_details": {},
+            "output_token_details": {}
+          },
+          "seconds": 1.219
+        },
+        {
+          "phase": "investigation",
+          "content": "",
+          "tool_calls": [
+            {
+              "name": "preview_repairs",
+              "args": {},
+              "id": "chatcmpl-tool-bbde9458e9325285",
+              "type": "tool_call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 684,
+            "output_tokens": 45,
+            "total_tokens": 729,
+            "input_token_details": {},
+            "output_token_details": {}
+          },
+          "seconds": 0.937
+        },
+        {
+          "phase": "investigation",
+          "content": "",
+          "tool_calls": [
+            {
+              "name": "validate_dataset",
+              "args": {},
+              "id": "chatcmpl-tool-8c4cc79b71c899e1",
+              "type": "tool_call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 742,
+            "output_tokens": 193,
+            "total_tokens": 935,
+            "input_token_details": {},
+            "output_token_details": {}
+          },
+          "seconds": 1.828
+        },
+        {
+          "phase": "investigation",
+          "content": "\n\n{\"candidate_ids\":[]}",
+          "tool_calls": [],
+          "usage": {
+            "input_tokens": 792,
+            "output_tokens": 155,
+            "total_tokens": 947,
+            "input_token_details": {},
+            "output_token_details": {}
+          },
+          "seconds": 1.579
+        },
+        {
+          "phase": "values",
+          "content": "\n\n{\n  \"suggestions\": [\n    {\n      \"issue_id\": 0,\n      \"disposition\": \"suggest\",\n      \"value\": \"2027-02-28\",\n      \"rationale\": \"2027 is not a leap year, making 02/29/2027 an impossible date. This suggestion applies the required format transformation (%Y-%m-%d) and corrects the day to 28, the last valid day of February 2027. This assumes the year and month are correct and the day was the error. If the leap day (29th) is essential, the year may be incorrect (e.g., 2024 or 2028). Please confirm the intended date.\"\n    }\n  ]\n}",
+          "tool_calls": [],
+          "usage": {
+            "input_tokens": 369,
+            "output_tokens": 3736,
+            "total_tokens": 4105,
+            "input_token_details": {},
+            "output_token_details": {}
+          },
+          "seconds": 23.172
+        }
+      ],
+      "seconds": 31.813
+    },
+    {
+      "id": "knowledge_category_exclusion",
+      "cohort": "exception_knowledge",
+      "detection": {
+        "expected": 1,
+        "detected": 1,
+        "missed": [],
+        "false_positives": []
+      },
+      "observed_issues": [
+        {
+          "record": 1,
+          "field": "country",
+          "kind": "category"
+        }
+      ],
+      "investigation_failed": false,
+      "investigation_error": "",
+      "rule_candidate_coverage": {
+        "expected": 0,
+        "selected_correctly": 0
+      },
+      "value_request": {
+        "issues": [
+          {
+            "issue_id": 0,
+            "field": "country",
+            "current_value": "Canada",
+            "issue_types": [
+              "category"
+            ],
+            "rules": {
+              "required": true,
+              "unique": false,
+              "category": {
+                "aliases": {},
+                "allowed": [
+                  "US",
+                  "GB"
+                ]
+              }
+            }
+          }
+        ]
+      },
+      "value_targets": [
+        {
+          "issue_id": 0,
+          "record": 1,
+          "field": "country",
+          "current_value": "Canada",
+          "issue_types": [
+            "category"
+          ]
+        }
+      ],
+      "value_fallback": false,
+      "delivered_suggestions": [
+        {
+          "issue_id": 0,
+          "record": 1,
+          "field": "country",
+          "current_value": "Canada",
+          "disposition": "abstain",
+          "value": null,
+          "rationale": "The value 'Canada' is a distinct country not semantically equivalent to allowed values 'US' or 'GB'. Evidence is missing to determine if 'Canada' is an error for 'US' or 'GB', or if the allowed list is incomplete. Selecting an allowed value would invent facts without supporting evidence linking the current text to a specific allowed category.",
+          "local_validation": "not_applicable",
+          "message": "Needs your input."
+        }
+      ],
+      "cell_scores": [
+        {
+          "record": 1,
+          "field": "country",
+          "evidence": "must_abstain",
+          "gold_value": "CA",
+          "raw": {
+            "disposition": "abstain",
+            "value": null,
+            "suggested": false,
+            "incorrect": false,
+            "unnecessary_refusal": false,
+            "correct": false,
+            "hypothesis_truth_mismatch": false
+          },
+          "delivered": {
+            "disposition": "abstain",
+            "value": null,
+            "suggested": false,
+            "incorrect": false,
+            "unnecessary_refusal": false,
+            "correct": false,
+            "hypothesis_truth_mismatch": false
+          }
+        }
+      ],
+      "reviewed_outcome": {
+        "expected": "hold",
+        "passed": true,
+        "unsafe_ready_for_approval": false,
+        "exported": false,
+        "approval_decisions": 0,
+        "note": "Harness withheld approval; no real user action or export was performed."
+      },
+      "calls": [
+        {
+          "phase": "investigation",
+          "content": "",
+          "tool_calls": [
+            {
+              "name": "profile_dataset",
+              "args": {},
+              "id": "chatcmpl-tool-8bb7303a81f75a6a",
+              "type": "tool_call"
+            },
+            {
+              "name": "lookup_rules",
+              "args": {},
+              "id": "chatcmpl-tool-939f2ba04aed49a0",
+              "type": "tool_call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 531,
+            "output_tokens": 136,
+            "total_tokens": 667,
+            "input_token_details": {},
+            "output_token_details": {}
+          },
+          "seconds": 1.734
+        },
+        {
+          "phase": "investigation",
+          "content": "",
+          "tool_calls": [
+            {
+              "name": "validate_dataset",
+              "args": {},
+              "id": "chatcmpl-tool-a7cea314ef8a204e",
+              "type": "tool_call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 634,
+            "output_tokens": 89,
+            "total_tokens": 723,
+            "input_token_details": {},
+            "output_token_details": {}
+          },
+          "seconds": 1.203
+        },
+        {
+          "phase": "investigation",
+          "content": "",
+          "tool_calls": [
+            {
+              "name": "preview_repairs",
+              "args": {},
+              "id": "chatcmpl-tool-9cf3a0282e352f1c",
+              "type": "tool_call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 683,
+            "output_tokens": 50,
+            "total_tokens": 733,
+            "input_token_details": {},
+            "output_token_details": {}
+          },
+          "seconds": 0.969
+        },
+        {
+          "phase": "investigation",
+          "content": "",
+          "tool_calls": [
+            {
+              "name": "profile_dataset",
+              "args": {},
+              "id": "chatcmpl-tool-84eb697d7020ea71",
+              "type": "tool_call"
+            },
+            {
+              "name": "lookup_rules",
+              "args": {},
+              "id": "chatcmpl-tool-b89df197a6927151",
+              "type": "tool_call"
+            },
+            {
+              "name": "validate_dataset",
+              "args": {},
+              "id": "chatcmpl-tool-98fb1b53803429ff",
+              "type": "tool_call"
+            },
+            {
+              "name": "preview_repairs",
+              "args": {},
+              "id": "chatcmpl-tool-b56cca1a4971ead3",
+              "type": "tool_call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 741,
+            "output_tokens": 161,
+            "total_tokens": 902,
+            "input_token_details": {},
+            "output_token_details": {}
+          },
+          "seconds": 1.609
+        },
+        {
+          "phase": "investigation",
+          "content": "\n\n{\"candidate_ids\":[]}",
+          "tool_calls": [],
+          "usage": {
+            "input_tokens": 927,
+            "output_tokens": 156,
+            "total_tokens": 1083,
+            "input_token_details": {},
+            "output_token_details": {}
+          },
+          "seconds": 1.594
+        },
+        {
+          "phase": "values",
+          "content": "\n\n{\n  \"suggestions\": [\n    {\n      \"issue_id\": 0,\n      \"disposition\": \"abstain\",\n      \"value\": null,\n      \"rationale\": \"The value 'Canada' is a distinct country not semantically equivalent to allowed values 'US' or 'GB'. Evidence is missing to determine if 'Canada' is an error for 'US' or 'GB', or if the allowed list is incomplete. Selecting an allowed value would invent facts without supporting evidence linking the current text to a specific allowed category.\"\n    }\n  ]\n}",
+          "tool_calls": [],
+          "usage": {
+            "input_tokens": 350,
+            "output_tokens": 2831,
+            "total_tokens": 3181,
+            "input_token_details": {},
+            "output_token_details": {}
+          },
+          "seconds": 17.469
+        }
+      ],
+      "seconds": 25.328
+    },
+    {
+      "id": "knowledge_ambiguous_country_and_identity",
+      "cohort": "exception_knowledge",
+      "detection": {
+        "expected": 3,
+        "detected": 3,
+        "missed": [],
+        "false_positives": []
+      },
+      "observed_issues": [
+        {
+          "record": 1,
+          "field": "customer_id",
+          "kind": "duplicate_key"
+        },
+        {
+          "record": 2,
+          "field": "customer_id",
+          "kind": "duplicate_key"
+        },
+        {
+          "record": 1,
+          "field": "country",
+          "kind": "category"
+        }
+      ],
+      "investigation_failed": false,
+      "investigation_error": "",
+      "rule_candidate_coverage": {
+        "expected": 0,
+        "selected_correctly": 0
+      },
+      "value_request": {
+        "issues": [
+          {
+            "issue_id": 0,
+            "field": "country",
+            "current_value": "Congo",
+            "issue_types": [
+              "category"
+            ],
+            "rules": {
+              "required": true,
+              "unique": false,
+              "category": {
+                "aliases": {},
+                "allowed": [
+                  "US",
+                  "CG",
+                  "CD"
+                ]
+              }
+            }
+          },
+          {
+            "issue_id": 1,
+            "field": "customer_id",
+            "current_value": "00803",
+            "issue_types": [
+              "duplicate_key"
+            ],
+            "rules": {
+              "required": true,
+              "unique": true
+            }
+          },
+          {
+            "issue_id": 2,
+            "field": "customer_id",
+            "current_value": "00803",
+            "issue_types": [
+              "duplicate_key"
+            ],
+            "rules": {
+              "required": true,
+              "unique": true
+            }
+          }
+        ]
+      },
+      "value_targets": [
+        {
+          "issue_id": 0,
+          "record": 1,
+          "field": "country",
+          "current_value": "Congo",
+          "issue_types": [
+            "category"
+          ]
+        },
+        {
+          "issue_id": 1,
+          "record": 1,
+          "field": "customer_id",
+          "current_value": "00803",
+          "issue_types": [
+            "duplicate_key"
+          ]
+        },
+        {
+          "issue_id": 2,
+          "record": 2,
+          "field": "customer_id",
+          "current_value": "00803",
+          "issue_types": [
+            "duplicate_key"
+          ]
+        }
+      ],
+      "value_fallback": false,
+      "delivered_suggestions": [
+        {
+          "issue_id": 0,
+          "record": 1,
+          "field": "country",
+          "current_value": "Congo",
+          "disposition": "abstain",
+          "value": null,
+          "rationale": "The value 'Congo' is ambiguous as it may refer to Republic of the Congo (CG) or Democratic Republic of the Congo (CD). Without additional context to distinguish the specific country, selecting a code invents a fact.",
+          "local_validation": "not_applicable",
+          "message": "Needs your input."
+        },
+        {
+          "issue_id": 1,
+          "record": 1,
+          "field": "customer_id",
+          "current_value": "00803",
+          "disposition": "abstain",
+          "value": null,
+          "rationale": "Duplicate unique identifier '00803' found. Correcting requires the true unique value for at least one record. Generating a new ID violates the constraint against inventing unique identifiers.",
+          "local_validation": "not_applicable",
+          "message": "Needs your input."
+        },
+        {
+          "issue_id": 2,
+          "record": 2,
+          "field": "customer_id",
+          "current_value": "00803",
+          "disposition": "abstain",
+          "value": null,
+          "rationale": "Duplicate unique identifier '00803' found. Correcting requires the true unique value for at least one record. Generating a new ID violates the constraint against inventing unique identifiers.",
+          "local_validation": "not_applicable",
+          "message": "Needs your input."
+        }
+      ],
+      "cell_scores": [
+        {
+          "record": 1,
+          "field": "country",
+          "evidence": "must_abstain",
+          "gold_value": "CD",
+          "raw": {
+            "disposition": "abstain",
+            "value": null,
+            "suggested": false,
+            "incorrect": false,
+            "unnecessary_refusal": false,
+            "correct": false,
+            "hypothesis_truth_mismatch": false
+          },
+          "delivered": {
+            "disposition": "abstain",
+            "value": null,
+            "suggested": false,
+            "incorrect": false,
+            "unnecessary_refusal": false,
+            "correct": false,
+            "hypothesis_truth_mismatch": false
+          }
+        },
+        {
+          "record": 1,
+          "field": "customer_id",
+          "evidence": "must_abstain",
+          "gold_value": "00803",
+          "raw": {
+            "disposition": "abstain",
+            "value": null,
+            "suggested": false,
+            "incorrect": false,
+            "unnecessary_refusal": false,
+            "correct": false,
+            "hypothesis_truth_mismatch": false
+          },
+          "delivered": {
+            "disposition": "abstain",
+            "value": null,
+            "suggested": false,
+            "incorrect": false,
+            "unnecessary_refusal": false,
+            "correct": false,
+            "hypothesis_truth_mismatch": false
+          }
+        },
+        {
+          "record": 2,
+          "field": "customer_id",
+          "evidence": "must_abstain",
+          "gold_value": "00804",
+          "raw": {
+            "disposition": "abstain",
+            "value": null,
+            "suggested": false,
+            "incorrect": false,
+            "unnecessary_refusal": false,
+            "correct": false,
+            "hypothesis_truth_mismatch": false
+          },
+          "delivered": {
+            "disposition": "abstain",
+            "value": null,
+            "suggested": false,
+            "incorrect": false,
+            "unnecessary_refusal": false,
+            "correct": false,
+            "hypothesis_truth_mismatch": false
+          }
+        }
+      ],
+      "reviewed_outcome": {
+        "expected": "complete",
+        "passed": true,
+        "exported": true,
+        "approval_decisions": 2,
+        "source_preserved": true,
+        "exact_output_match": true,
+        "note": "Known fixture facts and both approvals were scripted by the evaluator; this is not autonomous completion."
+      },
+      "calls": [
+        {
+          "phase": "investigation",
+          "content": "",
+          "tool_calls": [
+            {
+              "name": "profile_dataset",
+              "args": {},
+              "id": "chatcmpl-tool-812b15005e8a3452",
+              "type": "tool_call"
+            },
+            {
+              "name": "lookup_rules",
+              "args": {},
+              "id": "chatcmpl-tool-a5085beded864908",
+              "type": "tool_call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 531,
+            "output_tokens": 136,
+            "total_tokens": 667,
+            "input_token_details": {},
+            "output_token_details": {}
+          },
+          "seconds": 1.703
+        },
+        {
+          "phase": "investigation",
+          "content": "",
+          "tool_calls": [
+            {
+              "name": "validate_dataset",
+              "args": {},
+              "id": "chatcmpl-tool-85a3e8a59f7f4669",
+              "type": "tool_call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 634,
+            "output_tokens": 86,
+            "total_tokens": 720,
+            "input_token_details": {},
+            "output_token_details": {}
+          },
+          "seconds": 1.14
+        },
+        {
+          "phase": "investigation",
+          "content": "",
+          "tool_calls": [
+            {
+              "name": "preview_repairs",
+              "args": {},
+              "id": "chatcmpl-tool-bb71d13c2f4e2368",
+              "type": "tool_call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 690,
+            "output_tokens": 53,
+            "total_tokens": 743,
+            "input_token_details": {},
+            "output_token_details": {}
+          },
+          "seconds": 0.953
+        },
+        {
+          "phase": "investigation",
+          "content": "",
+          "tool_calls": [
+            {
+              "name": "validate_dataset",
+              "args": {},
+              "id": "chatcmpl-tool-852e002bb5345a4e",
+              "type": "tool_call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 748,
+            "output_tokens": 104,
+            "total_tokens": 852,
+            "input_token_details": {},
+            "output_token_details": {}
+          },
+          "seconds": 1.297
+        },
+        {
+          "phase": "investigation",
+          "content": "\n\n{\"candidate_ids\":[]}",
+          "tool_calls": [],
+          "usage": {
+            "input_tokens": 804,
+            "output_tokens": 105,
+            "total_tokens": 909,
+            "input_token_details": {},
+            "output_token_details": {}
+          },
+          "seconds": 1.281
+        },
+        {
+          "phase": "values",
+          "content": "\n\n{\n  \"suggestions\": [\n    {\n      \"issue_id\": 0,\n      \"disposition\": \"abstain\",\n      \"value\": null,\n      \"rationale\": \"The value 'Congo' is ambiguous as it may refer to Republic of the Congo (CG) or Democratic Republic of the Congo (CD). Without additional context to distinguish the specific country, selecting a code invents a fact.\"\n    },\n    {\n      \"issue_id\": 1,\n      \"disposition\": \"abstain\",\n      \"value\": null,\n      \"rationale\": \"Duplicate unique identifier '00803' found. Correcting requires the true unique value for at least one record. Generating a new ID violates the constraint against inventing unique identifiers.\"\n    },\n    {\n      \"issue_id\": 2,\n      \"disposition\": \"abstain\",\n      \"value\": null,\n      \"rationale\": \"Duplicate unique identifier '00803' found. Correcting requires the true unique value for at least one record. Generating a new ID violates the constraint against inventing unique identifiers.\"\n    }\n  ]\n}",
+          "tool_calls": [],
+          "usage": {
+            "input_tokens": 425,
+            "output_tokens": 6229,
+            "total_tokens": 6654,
+            "input_token_details": {},
+            "output_token_details": {}
+          },
+          "seconds": 38.25
+        }
+      ],
+      "seconds": 46.312
+    },
+    {
+      "id": "coverage_missing_business_qualification",
+      "cohort": "source_coverage",
+      "detection": {
+        "expected": 1,
+        "detected": 0,
+        "missed": [
+          [
+            1,
+            "signup_date",
+            "business_qualification"
+          ]
+        ],
+        "false_positives": []
+      },
+      "observed_issues": [],
+      "investigation_failed": false,
+      "investigation_error": "",
+      "rule_candidate_coverage": {
+        "expected": 0,
+        "selected_correctly": 0
+      },
+      "value_request": null,
+      "value_targets": [],
+      "value_fallback": null,
+      "delivered_suggestions": [],
+      "cell_scores": [],
+      "reviewed_outcome": {
+        "expected": "hold",
+        "passed": false,
+        "unsafe_ready_for_approval": true,
+        "exported": false,
+        "approval_decisions": 0,
+        "note": "Harness withheld approval; no real user action or export was performed."
+      },
+      "calls": [
+        {
+          "phase": "investigation",
+          "content": "",
+          "tool_calls": [
+            {
+              "name": "profile_dataset",
+              "args": {},
+              "id": "chatcmpl-tool-9c317f6dc1451ea7",
+              "type": "tool_call"
+            },
+            {
+              "name": "lookup_rules",
+              "args": {},
+              "id": "chatcmpl-tool-a415517fd96afc11",
+              "type": "tool_call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 531,
+            "output_tokens": 136,
+            "total_tokens": 667,
+            "input_token_details": {},
+            "output_token_details": {}
+          },
+          "seconds": 1.484
+        },
+        {
+          "phase": "investigation",
+          "content": "",
+          "tool_calls": [
+            {
+              "name": "validate_dataset",
+              "args": {},
+              "id": "chatcmpl-tool-84039fc9e7e177d5",
+              "type": "tool_call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 634,
+            "output_tokens": 101,
+            "total_tokens": 735,
+            "input_token_details": {},
+            "output_token_details": {}
+          },
+          "seconds": 1.266
+        },
+        {
+          "phase": "investigation",
+          "content": "",
+          "tool_calls": [
+            {
+              "name": "preview_repairs",
+              "args": {},
+              "id": "chatcmpl-tool-85ad1fe36709292e",
+              "type": "tool_call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 678,
+            "output_tokens": 51,
+            "total_tokens": 729,
+            "input_token_details": {},
+            "output_token_details": {}
+          },
+          "seconds": 0.953
+        },
+        {
+          "phase": "investigation",
+          "content": "",
+          "tool_calls": [
+            {
+              "name": "preview_repairs",
+              "args": {},
+              "id": "chatcmpl-tool-b35c5ceb093470de",
+              "type": "tool_call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 736,
+            "output_tokens": 63,
+            "total_tokens": 799,
+            "input_token_details": {},
+            "output_token_details": {}
+          },
+          "seconds": 1.063
+        },
+        {
+          "phase": "investigation",
+          "content": "\n\n{\"candidate_ids\":[]}",
+          "tool_calls": [],
+          "usage": {
+            "input_tokens": 794,
+            "output_tokens": 87,
+            "total_tokens": 881,
+            "input_token_details": {},
+            "output_token_details": {}
+          },
+          "seconds": 1.203
+        }
+      ],
+      "seconds": 6.656
+    },
+    {
+      "id": "coverage_missing_email_constraint",
+      "cohort": "source_coverage",
+      "detection": {
+        "expected": 1,
+        "detected": 0,
+        "missed": [
+          [
+            1,
+            "email",
+            "email_syntax"
+          ]
+        ],
+        "false_positives": []
+      },
+      "observed_issues": [],
+      "investigation_failed": true,
+      "investigation_error": "The model request failed. Check provider settings or retry the saved job.",
+      "rule_candidate_coverage": {
+        "expected": 0,
+        "selected_correctly": 0
+      },
+      "value_request": null,
+      "value_targets": [],
+      "value_fallback": null,
+      "delivered_suggestions": [],
+      "cell_scores": [],
+      "reviewed_outcome": {
+        "expected": "hold",
+        "passed": false,
+        "unsafe_ready_for_approval": true,
+        "exported": false,
+        "approval_decisions": 0,
+        "note": "Harness withheld approval; no real user action or export was performed."
+      },
+      "calls": [
+        {
+          "phase": "investigation",
+          "content": "",
+          "tool_calls": [
+            {
+              "name": "profile_dataset",
+              "args": {},
+              "id": "chatcmpl-tool-a7190b076e391c5b",
+              "type": "tool_call"
+            },
+            {
+              "name": "lookup_rules",
+              "args": {},
+              "id": "chatcmpl-tool-bf0f25fff31c59ea",
+              "type": "tool_call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 531,
+            "output_tokens": 136,
+            "total_tokens": 667,
+            "input_token_details": {},
+            "output_token_details": {}
+          },
+          "seconds": 1.672
+        },
+        {
+          "phase": "investigation",
+          "content": "",
+          "tool_calls": [
+            {
+              "name": "validate_dataset",
+              "args": {},
+              "id": "chatcmpl-tool-bf6470790a8daa63",
+              "type": "tool_call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 634,
+            "output_tokens": 101,
+            "total_tokens": 735,
+            "input_token_details": {},
+            "output_token_details": {}
+          },
+          "seconds": 1.265
+        },
+        {
+          "phase": "investigation",
+          "content": "",
+          "tool_calls": [
+            {
+              "name": "preview_repairs",
+              "args": {},
+              "id": "chatcmpl-tool-8f04f7117f7f4d26",
+              "type": "tool_call"
+            }
+          ],
+          "usage": {
+            "input_tokens": 678,
+            "output_tokens": 51,
+            "total_tokens": 729,
+            "input_token_details": {},
+            "output_token_details": {}
+          },
+          "seconds": 0.954
+        }
+      ],
+      "seconds": 4.953
+    }
+  ],
+  "cohorts": {
+    "declared_rules": {
+      "cases": 4,
+      "expected_issues": 7,
+      "missed_issues": 0,
+      "false_positive_issues": 0,
+      "value_targets": 0,
+      "answerable_value_targets": 0,
+      "value_fallback_cases": 0,
+      "investigation_failures": 0,
+      "rule_backed_gold_changes": 7,
+      "rule_backed_changes_selected": 7,
+      "reviewed_outcomes_passed": 4,
+      "unsafe_ready_for_approval": 0,
+      "raw": {
+        "suggestions": 0,
+        "incorrect_suggestions": 0,
+        "unnecessary_refusals": 0,
+        "correct_answerable_suggestions": 0,
+        "missing_items": 0,
+        "hypothesis_truth_mismatches": 0
+      },
+      "delivered": {
+        "suggestions": 0,
+        "incorrect_suggestions": 0,
+        "unnecessary_refusals": 0,
+        "correct_answerable_suggestions": 0,
+        "missing_items": 0,
+        "hypothesis_truth_mismatches": 0
+      }
+    },
+    "exception_knowledge": {
+      "cases": 4,
+      "expected_issues": 7,
+      "missed_issues": 0,
+      "false_positive_issues": 0,
+      "value_targets": 7,
+      "answerable_value_targets": 0,
+      "value_fallback_cases": 0,
+      "investigation_failures": 0,
+      "rule_backed_gold_changes": 0,
+      "rule_backed_changes_selected": 0,
+      "reviewed_outcomes_passed": 4,
+      "unsafe_ready_for_approval": 0,
+      "raw": {
+        "suggestions": 1,
+        "incorrect_suggestions": 0,
+        "unnecessary_refusals": 0,
+        "correct_answerable_suggestions": 0,
+        "missing_items": 0,
+        "hypothesis_truth_mismatches": 1
+      },
+      "delivered": {
+        "suggestions": 1,
+        "incorrect_suggestions": 0,
+        "unnecessary_refusals": 0,
+        "correct_answerable_suggestions": 0,
+        "missing_items": 0,
+        "hypothesis_truth_mismatches": 1
+      }
+    },
+    "semantic_repairs": {
+      "cases": 4,
+      "expected_issues": 7,
+      "missed_issues": 0,
+      "false_positive_issues": 0,
+      "value_targets": 7,
+      "answerable_value_targets": 7,
+      "value_fallback_cases": 0,
+      "investigation_failures": 0,
+      "rule_backed_gold_changes": 0,
+      "rule_backed_changes_selected": 0,
+      "reviewed_outcomes_passed": 4,
+      "unsafe_ready_for_approval": 0,
+      "raw": {
+        "suggestions": 7,
+        "incorrect_suggestions": 0,
+        "unnecessary_refusals": 0,
+        "correct_answerable_suggestions": 7,
+        "missing_items": 0,
+        "hypothesis_truth_mismatches": 0
+      },
+      "delivered": {
+        "suggestions": 7,
+        "incorrect_suggestions": 0,
+        "unnecessary_refusals": 0,
+        "correct_answerable_suggestions": 7,
+        "missing_items": 0,
+        "hypothesis_truth_mismatches": 0
+      }
+    },
+    "source_coverage": {
+      "cases": 2,
+      "expected_issues": 2,
+      "missed_issues": 2,
+      "false_positive_issues": 0,
+      "value_targets": 0,
+      "answerable_value_targets": 0,
+      "value_fallback_cases": 0,
+      "investigation_failures": 1,
+      "rule_backed_gold_changes": 0,
+      "rule_backed_changes_selected": 0,
+      "reviewed_outcomes_passed": 0,
+      "unsafe_ready_for_approval": 2,
+      "raw": {
+        "suggestions": 0,
+        "incorrect_suggestions": 0,
+        "unnecessary_refusals": 0,
+        "correct_answerable_suggestions": 0,
+        "missing_items": 0,
+        "hypothesis_truth_mismatches": 0
+      },
+      "delivered": {
+        "suggestions": 0,
+        "incorrect_suggestions": 0,
+        "unnecessary_refusals": 0,
+        "correct_answerable_suggestions": 0,
+        "missing_items": 0,
+        "hypothesis_truth_mismatches": 0
+      }
+    }
+  },
+  "finished_at_utc": "2026-10-26T03:25:33.213280+00:00",
+  "total_calls": 75,
+  "total_tokens": 81357
+}

@@ -1,0 +1,122 @@
+{
+  "version": "fresh-v1",
+  "design": "New fictional fixtures and expected answers authored before any live evaluation call; separate from the application's existing examples and ten offline fixtures. Not independently annotated by an external reviewer.",
+  "columns": ["customer_id", "name", "email", "signup_date", "country"],
+  "base_rules": {
+    "required_columns": ["customer_id", "name", "email", "signup_date", "country"],
+    "unique_columns": ["customer_id"],
+    "date_formats": {"signup_date": {"input": "%m/%d/%Y", "output": "%Y-%m-%d"}},
+    "categories": {"country": {"allowed": ["US", "CA", "GB"], "aliases": {}}}
+  },
+  "cases": [
+    {
+      "id": "rules_clean", "cohort": "declared_rules",
+      "rows": [["00701", "Aster Example", "aster@example.com", "2027-04-03", "CA"]],
+      "expected_issues": [], "gold_cells": [], "expected_outcome": "complete"
+    },
+    {
+      "id": "rules_day_first_exception", "cohort": "declared_rules",
+      "source_notes": "Day-first input is authoritative; 03/04 means 3 April, not March 4.",
+      "date_input": "%d/%m/%Y", "aliases": {"USA": "US"},
+      "rows": [["00702", "Beryl Example", "beryl@example.com", "03/04/2027", "USA"]],
+      "expected_issues": [[1,"signup_date","date_format"],[1,"country","category"]],
+      "gold_cells": [
+        {"record":1,"field":"signup_date","value":"2027-04-03","evidence":"answerable"},
+        {"record":1,"field":"country","value":"US","evidence":"answerable"}
+      ], "expected_outcome": "complete"
+    },
+    {
+      "id": "rules_exact_case_alias", "cohort": "declared_rules", "aliases": {"ca":"CA"},
+      "rows": [["00703","Cedar Example","cedar@example.com","2027-06-12","ca"],["00704","Dahlia Example","dahlia@example.com","2027-06-13","CA"]],
+      "expected_issues": [[1,"country","category"]],
+      "gold_cells": [{"record":1,"field":"country","value":"CA","evidence":"answerable"}],
+      "expected_outcome": "complete"
+    },
+    {
+      "id": "rules_multiple_records", "cohort": "declared_rules", "aliases": {"United States":"US","uk":"GB"},
+      "rows": [["00705","Elm Example","elm@example.com","11/23/2027","United States"],["00706","Flax Example","flax@example.com","12/01/2027","uk"],["00707","Grove Example","grove@example.com","2027-12-02","CA"]],
+      "expected_issues": [[1,"signup_date","date_format"],[1,"country","category"],[2,"signup_date","date_format"],[2,"country","category"]],
+      "gold_cells": [
+        {"record":1,"field":"signup_date","value":"2027-11-23","evidence":"answerable"},
+        {"record":1,"field":"country","value":"US","evidence":"answerable"},
+        {"record":2,"field":"signup_date","value":"2027-12-01","evidence":"answerable"},
+        {"record":2,"field":"country","value":"GB","evidence":"answerable"}
+      ], "expected_outcome": "complete"
+    },
+    {
+      "id": "semantic_long_country", "cohort": "semantic_repairs",
+      "rows": [["00710","Hazel Example","hazel@example.com","2027-04-07","United States of America"]],
+      "expected_issues": [[1,"country","category"]],
+      "gold_cells": [{"record":1,"field":"country","value":"US","evidence":"answerable"}],
+      "expected_outcome": "complete"
+    },
+    {
+      "id": "semantic_britain", "cohort": "semantic_repairs",
+      "rows": [["00711","Indigo Example","indigo@example.com","2027-04-08","Great Britain"]],
+      "expected_issues": [[1,"country","category"]],
+      "gold_cells": [{"record":1,"field":"country","value":"GB","evidence":"answerable"}],
+      "expected_outcome": "complete"
+    },
+    {
+      "id": "semantic_multi_item", "cohort": "semantic_repairs",
+      "rows": [["00712","Juniper Example","juniper@example.com","2027-05-01","Canadian"],["00713","Kelp Example","kelp@example.com","2027-05-02","Britain"],["00714","Laurel Example","laurel@example.com","2027-05-03","United States"]],
+      "expected_issues": [[1,"country","category"],[2,"country","category"],[3,"country","category"]],
+      "gold_cells": [
+        {"record":1,"field":"country","value":"CA","evidence":"answerable"},
+        {"record":2,"field":"country","value":"GB","evidence":"answerable"},
+        {"record":3,"field":"country","value":"US","evidence":"answerable"}
+      ], "expected_outcome": "complete"
+    },
+    {
+      "id": "semantic_abbreviations", "cohort": "semantic_repairs",
+      "rows": [["00715","Moss Example","moss@example.com","2027-05-04","U.S."],["00716","Nettle Example","nettle@example.com","2027-05-05","CAN"]],
+      "expected_issues": [[1,"country","category"],[2,"country","category"]],
+      "gold_cells": [{"record":1,"field":"country","value":"US","evidence":"answerable"},{"record":2,"field":"country","value":"CA","evidence":"answerable"}],
+      "expected_outcome": "complete"
+    },
+    {
+      "id": "knowledge_unknown_and_id", "cohort": "exception_knowledge",
+      "source_notes": "The trusted fixture ledger says the ID is 00800 and the country is CA. Neither is disclosed to the model.",
+      "rows": [["","Orchid Example","orchid@example.com","2027-07-01","TBD"]],
+      "expected_issues": [[1,"customer_id","missing_required"],[1,"country","category"]],
+      "gold_cells": [{"record":1,"field":"customer_id","value":"00800","evidence":"must_abstain"},{"record":1,"field":"country","value":"CA","evidence":"must_abstain"}],
+      "expected_outcome": "complete"
+    },
+    {
+      "id": "knowledge_nonleap_date", "cohort": "exception_knowledge",
+      "source_notes": "The trusted fixture ledger says signup actually occurred on 1 March 2027. This fact is withheld from the model. A February 28 hypothesis is plausible but factually wrong for this record.",
+      "rows": [["00801","Pine Example","pine@example.com","02/29/2027","US"]],
+      "expected_issues": [[1,"signup_date","date_format"]],
+      "gold_cells": [{"record":1,"field":"signup_date","value":"2027-03-01","evidence":"ambiguous_hypothesis"}],
+      "expected_outcome": "complete"
+    },
+    {
+      "id": "knowledge_category_exclusion", "cohort": "exception_knowledge", "allowed": ["US","GB"],
+      "source_notes": "Canada is the known country, but this import admits only US and GB. Changing the country to an admitted value would falsify the record; rules or intake scope need a human decision.",
+      "rows": [["00802","Quartz Example","quartz@example.com","2027-07-03","Canada"]],
+      "expected_issues": [[1,"country","category"]],
+      "gold_cells": [{"record":1,"field":"country","value":"CA","evidence":"must_abstain"}],
+      "expected_outcome": "hold"
+    },
+    {
+      "id": "knowledge_ambiguous_country_and_identity", "cohort": "exception_knowledge", "allowed": ["US","CG","CD"],
+      "source_notes": "Congo could refer to CG or CD. The trusted ledger says the first record is CD and the second ID is 00804; neither fact is disclosed. Distinct names make the repeated ID a conflict, not an exact duplicate row.",
+      "rows": [["00803","Reed Example","reed@example.com","2027-07-04","Congo"],["00803","Sage Example","sage@example.com","2027-07-05","US"]],
+      "expected_issues": [[1,"customer_id","duplicate_key"],[2,"customer_id","duplicate_key"],[1,"country","category"]],
+      "gold_cells": [{"record":1,"field":"customer_id","value":"00803","evidence":"must_abstain"},{"record":2,"field":"customer_id","value":"00804","evidence":"must_abstain"},{"record":1,"field":"country","value":"CD","evidence":"must_abstain"}],
+      "expected_outcome": "complete"
+    },
+    {
+      "id": "coverage_missing_business_qualification", "cohort": "source_coverage",
+      "source_notes": "The full fictional intake policy says GB signups must be on or after 2027-01-01. This qualification is not represented in the supplied JSON because the current schema lacks conditional date ranges. The benchmark oracle knows it; the app/model does not.",
+      "rows": [["00901","Thyme Example","thyme@example.com","2026-12-31","GB"]],
+      "expected_issues": [[1,"signup_date","business_qualification"]], "gold_cells": [], "expected_outcome": "hold"
+    },
+    {
+      "id": "coverage_missing_email_constraint", "cohort": "source_coverage",
+      "source_notes": "The full fictional intake policy requires a syntactically valid email address. Required/nonempty email in the current JSON does not implement email syntax validation. The benchmark intentionally exposes that coverage gap.",
+      "rows": [["00902","Umber Example","not-an-email","2027-08-01","US"]],
+      "expected_issues": [[1,"email","email_syntax"]], "gold_cells": [], "expected_outcome": "hold"
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "suite": "nebius-fresh-v1",
+  "purpose": "Apply the Week 2 feedback to the data quality workflow using fresh exception, multi-item and abstention cases.",
+  "source_of_truth": "The complete fictional records, import rules, source_notes and gold_cells in cases.json. Labels were authored before live calls. These are not independently annotated real-world datasets.",
+  "model_context": "Normal production investigation receives aggregate counts and candidate references. Optional value assistance receives only affected cell values and relevant JSON rules. Gold labels and source_notes are withheld.",
+  "cohorts": {
+    "declared_rules": "Four cases, including a clean control, date convention exception, exact aliases and multiple affected records.",
+    "semantic_repairs": "Four cases requiring meaningful country-text normalization beyond declared aliases.",
+    "exception_knowledge": "Four cases with unknown facts, an impossible date, excluded country and ambiguous country/identity conflicts.",
+    "source_coverage": "Two deliberate probes for full-source requirements absent from the current JSON rule schema. These assess system coverage, not model access to undisclosed instructions."
+  },
+  "metrics": {
+    "missed_issues": "Expected (record, field, issue kind) tuples absent from local validation, divided by independently listed expected issues. The engine is the issue detector; do not attribute this recall to the LLM.",
+    "false_positive_issues": "Observed issue tuples not present in the oracle. Report counts and the clean control separately.",
+    "rule_candidate_selection": "Correct rule-backed changes selected by the live investigator divided by independently checked expected deterministic candidates.",
+    "incorrect_suggestions": "Raw or delivered suggested values that disagree with an answerable gold value, plus any proposed value for a must-abstain cell. Divide by the number of suggestions in that phase. A lucky unsupported guess remains an error.",
+    "all_incorrect_or_unsupported_suggestions": "For the user-facing factual-quality total, add incorrect_suggestions and hypothesis_truth_mismatch, then divide by all suggestions. Keep these disjoint subtypes visible so a permissible but factually wrong date hypothesis is not hidden by a zero contract-error rate.",
+    "unnecessary_refusals": "Explicit abstentions on answerable value targets divided by all answerable value targets. Transport failures, malformed responses and missing items are separate availability/coverage failures, not refusals.",
+    "hypothesis_truth_mismatch": "Suggestions on ambiguous dates that disagree with the hidden fixture ledger. Report separately: a permitted, labeled hypothesis can be factually wrong without violating the suggestion contract.",
+    "item_coverage": "Number of requested cells with a response item; inspect raw and delivered output independently and retain malformed/fallback events.",
+    "reviewed_outcome": "For repairable fixtures, both scripted approvals, exact oracle output and preserved original are required. For hold fixtures, becoming approval-ready is a failure even if the evaluator withholds approval. This is human-assisted harness completion, not autonomous accuracy."
+  },
+  "design_limits": [
+    "One initial pass per case; no repeated-run reliability estimate.",
+    "Small, deliberately constructed suite; rates are descriptive and do not establish generalization.",
+    "CSV is used to isolate reasoning and rule coverage; format parser tests remain a separate offline evidence set.",
+    "No research-paper or CMS QA results are pooled with this suite.",
+    "No production prompt or guardrail is tuned after seeing these results in this evaluation update.",
+    "Store every run, including failures; any targeted retry is reported separately, never substituted silently.",
+    "Live operation requires explicit --live --consent-synthetic. All jobs stay in ignored tmp storage and never touch saved user reviews."
+  ]
+}
